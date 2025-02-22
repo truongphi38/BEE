@@ -14,17 +14,16 @@ return new class extends Migration
             $table->string('img', 255)->nullable();
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2);
-
+            $table->unsignedBigInteger('status_id');
             // Dùng unsignedBigInteger để khớp với id của bảng khác
             $table->unsignedBigInteger('category_id')->nullable();
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
-
-            $table->unsignedBigInteger('status_id');
-            $table->foreign('status_id')->references('id')->on('status')->onDelete('set null');
-
-            $table->boolean('featured')->default(0);
             $table->decimal('discount_price', 10, 2)->nullable();         
             $table->timestamps();
+
+
+
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+            $table->foreign('status_id')->references('id')->on('status')->onDelete('cascade');
 
         });
     }
