@@ -34,4 +34,15 @@ public function store(Request $request)
 
     return response()->json(['message' => 'Sản phẩm đã được thêm!', 'product' => $product], 201);
 }
+public function getProductById($id): JsonResponse
+{
+    $product = Product::find($id);
+
+    if (!$product) {
+        return response()->json(['message' => 'Sản phẩm không tồn tại'], 404);
+    }
+
+    return response()->json($product, 200, [], JSON_PRETTY_PRINT);
+}
+
 }
