@@ -21,34 +21,64 @@ class ProductController extends Controller
         return view('admin.index2', compact('products','categories'));
     }
 
-    function store(Request $request)
-    {
+    // function store(Request $request)
+    // {
         
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'category_id' => 'required|exists:categories,id',
-            'img' => 'nullable|image|max:2048'
-        ]);
+    //     $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'price' => 'required|numeric|min:0',
+    //         'category_id' => 'required|exists:categories,id',
+    //         'img' => 'nullable|image|max:2048'
+    //     ]);
 
-            //$imagePath = null;
-            if ($request->hasFile('img')) {
-        $imagePath = $request->file('img')->store('img', 'public');
-        //$imagePath = 'storage/' . $imagePath; // Thêm đường dẫn storage
+    //         //$imagePath = null;
+    //         if ($request->hasFile('img')) {
+    //     $imagePath = $request->file('img')->store('img', 'public');
+    //     //$imagePath = 'storage/' . $imagePath; // Thêm đường dẫn storage
+    // }
+
+
+    //     Product::create([
+    //         'name' => $request->name,
+    //         'price' => $request->price,
+    //         'discount_price' => $request->discount_price ?? 0,
+    //         'description' => $request->description ?? '',
+    //         'category_id' => $request->category_id,
+    //         'img' => $imagePath,
+    //     ]);
+    //     //return redirect()->route('products.index')->with('success', 'Product created successfully.');
+    //     return redirect()->back()->with('success', 'Product created successfully.');
+    // }
+    function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'price' => 'required|numeric|min:0',
+        'category_id' => 'required|exists:categories,id',
+        'img' => 'nullable|image|max:2048'
+    ]);
+
+    $imagePath = null;
+    if ($request->hasFile('img')) {
+        $file = $request->file('img');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('img'), $filename);
+        $imagePath = 'img/' . $filename;
     }
 
+    Product::create([
+        'name' => $request->name,
+        'price' => $request->price,
+        'discount_price' => $request->discount_price ?? 0,
+        'description' => $request->description ?? '',
+        'category_id' => $request->category_id,
+        'img' => $imagePath,
+    ]); 
+   
 
-        Product::create([
-            'name' => $request->name,
-            'price' => $request->price,
-            'discount_price' => $request->discount_price ?? 0,
-            'description' => $request->description ?? '',
-            'category_id' => $request->category_id,
-            'img' => $imagePath,
-        ]);
-        //return redirect()->route('products.index')->with('success', 'Product created successfully.');
-        return redirect()->back()->with('success', 'Product created successfully.');
-    }
+    return redirect()->back()->with('success', 'Product created successfully.');
+}
+
 
     public function create(){
         $categories = Category::all();

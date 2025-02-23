@@ -27,7 +27,9 @@
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->category->name}}</td>
-                        <td><img src="{{ asset('img/' . $item->img) }}" width="80" alt=""></td>
+                        <td><img src="{{ asset($item->img) }}" width="80" alt="">
+                        </td>
+                        
                         <td>{{ number_format($item->price,0,',','.')  }} vnđ</td>
                         <td class="text-danger" >{{ number_format($item->discount_price,0,',','.')  }} vnđ</td>
                         <td>{{ $item->description}}</td>

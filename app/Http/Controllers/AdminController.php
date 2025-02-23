@@ -36,7 +36,7 @@ public function updateProduct(Request $request, $id)
         'discount_price' => 'nullable|numeric',
         'description' => 'nullable|string',
         'category_id' => 'required|exists:categories,id',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
     $product = Product::findOrFail($id);
@@ -46,8 +46,8 @@ public function updateProduct(Request $request, $id)
     $product->description = $request->description;
     $product->category_id = $request->category_id;
 
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('products', 'public');
+    if ($request->hasFile('img')) {
+        $imagePath = $request->file('img')->store('products', 'public');
         $product->img = $imagePath;
     }
 
@@ -81,7 +81,7 @@ public function updateProduct(Request $request, $id)
 
         if($request->hasFile('img')){
             $imageName = time().'.'.$request->img->extension();  
-            $request->img->move(public_path('uploaded'), $imageName);
+            $request->img->move(public_path('img'), $imageName);
             $validatedData['img'] = $imageName;
         }
 
@@ -93,6 +93,37 @@ public function updateProduct(Request $request, $id)
     {
         return view('admin.category.create');
     }
+
+    function storeProduct(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'price' => 'required|numeric|min:0',
+        'category_id' => 'required|exists:categories,id',
+        'img' => 'nullable|image|max:2048'
+    ]);
+
+    $imagePath = null;
+    if ($request->hasFile('img')) {
+        $file = $request->file('img');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('img'), $filename);
+        $imagePath = 'img/' . $filename;
+    }
+
+    Product::create([
+        'name' => $request->name,
+        'price' => $request->price,
+        'discount_price' => $request->discount_price ?? 0,
+        'description' => $request->description ?? '',
+        'category_id' => $request->category_id,
+        'img' => $imagePath,
+    ]);
+
+    return redirect()->back()->with('success', 'Product created successfully.');
+}
+
+
 
     public function storeCategory(Request $request)
     {
