@@ -4,7 +4,7 @@
 <main class="content">
     <div class="container mt-4">
         <div class="card shadow-lg">
-            <div class="card-header bg-warning text-white">
+            <div class="card-header bg-primary text-white">
                 <h4 class="mb-0 text-white" style="font-weight: bolder;">Edit Category</h4>
             </div>
             <div class="card-body">
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="text-end">
-                        <button type="submit" class="btn btn-warning">Update Category</button>
+                        <button type="submit" class="btn btn-primary">Update Category</button>
                     </div>
                 </form>
             </div>

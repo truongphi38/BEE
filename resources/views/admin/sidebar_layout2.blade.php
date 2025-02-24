@@ -33,14 +33,14 @@
             <li class="sidebar-item">
                 <a class="sidebar-link" href="pages-sign-up.html">
                     <i class="align-middle" data-feather="user-plus"></i> 
-                    <span class="align-middle">Comment</span>
+                    <span class="align-middle">Orders</span>
                 </a>
             </li>
 
             <li class="sidebar-item">
                 <a class="sidebar-link" href="pages-blank.html">
                     <i class="align-middle" data-feather="book"></i> 
-                    <span class="align-middle">Orders</span>
+                    <span class="align-middle">Comment</span>
                 </a>
             </li>
 

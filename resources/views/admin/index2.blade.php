@@ -37,12 +37,12 @@
                         <td>{{ $item->updated_at->format('d/m/Y H:i') }}</td>
                         <td class="action-icons">
                             <a class="text-success" href="">Details</a>
-                            <a  href="{{ route('admin.product.edit', $item->id) }}">Edit</a> 
+                            <a  href="{{ route('admin.product.edit', $item->id) }}"><span class="text-black">| </span>Edit</a> 
                             
                             <form action="{{ route('admin.products.destroy', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this product?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" style="border: none; background: none; color: red; cursor: pointer;">Delete</button>
+                                <button type="submit" style="border: none; background: none; color: red; cursor: pointer;"><span class="text-black">|</span> Delete</button>
                             </form>
                         </td>
                         
