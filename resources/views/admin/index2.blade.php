@@ -36,7 +36,7 @@
                         <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
                         <td>{{ $item->updated_at->format('d/m/Y H:i') }}</td>
                         <td class="action-icons">
-                            <a class="text-success" href="">Details</a>
+                            <a class="text-success" href="{{ route('admin.product.show', $item->id) }}">Details</a>
                             <a  href="{{ route('admin.product.edit', $item->id) }}"><span class="text-black">| </span>Edit</a> 
                             
                             <form action="{{ route('admin.products.destroy', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this product?');">

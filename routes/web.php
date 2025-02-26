@@ -11,8 +11,7 @@ use App\Http\Controllers\UserController;
 
 // Admin controller
 use App\Http\Controllers\AdminController;
-
-
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,20 +29,16 @@ Route::get('/admin2/products', [ProductController::class, 'index'])->name('produ
 Route::get('/admin2/users', [AdminController::class, 'userlist'])->name('admin.users');
 Route::get('/admin2/categories', [CategoryController::class, 'index'])->name('categories.index');
 
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
-Route::post('/productadd', [AdminController::class, 'productadd'])->name('productadd');
-Route::post('/categoryadd', [AdminController::class, 'categoryadd'])->name('categoryadd');
-//Route::get('/productdelete/{id}', [AdminController::class, 'productdelete'])->name('productdelete');
-Route::get('/productupdateform/{id}', [AdminController::class, 'productupdateform'])->name('productupdateform');
-Route::post('/productupdate', [AdminController::class, 'productupdate'])->name('productupdate');
-
-
 
 Route::post('admin2/products/store', [ProductController::class, 'store'])->name('product.store');
 Route::get('admin2/product/create', [ProductController::class, 'create'])->name('product.create');
 Route::delete('/admin2/products/{id}', [AdminController::class, 'destroyProduct'])->name('admin.products.destroy');
 Route::get('/admin2/products/edit/{id}', [AdminController::class, 'editProduct'])->name('admin.product.edit');
 Route::post('/admin2/products/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.product.update');
+Route::get('/admin2/products/{id}', [ProductController::class, 'show'])->name('admin.product.show');
+
+
+
 
 
 Route::get('/admin2/category/create', [AdminController::class, 'createCategory'])->name('admin.category.create');

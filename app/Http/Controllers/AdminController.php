@@ -95,7 +95,7 @@ class AdminController extends Controller
         $roles = Role::orderBy('name', 'ASC')->get();
         
         $users = User::orderBy('id', 'DESC')->paginate(10);
-        return view('admin.userlist', compact('users','roles'));
+        return view('admin.user.index', compact('users','roles'));
     }
 
 
