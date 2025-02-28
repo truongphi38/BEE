@@ -30,8 +30,8 @@
                         <td><img src="{{ asset($item->img) }}" width="80" alt="">
                         </td>
                         
-                        <td>{{ number_format($item->price,0,',','.')  }} vnđ</td>
-                        <td class="text-danger" >{{ number_format($item->discount_price,0,',','.')  }} vnđ</td>
+                        <td>{{ number_format($item->price,0,',','.')  }} VNĐ</td>
+                        <td class="text-danger" >{{ number_format($item->discount_price,0,',','.')  }} VNĐ</td>
                         <td>{{ $item->description}}</td>
                         <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
                         <td>{{ $item->updated_at->format('d/m/Y H:i') }}</td>
