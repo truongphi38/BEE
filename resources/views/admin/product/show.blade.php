@@ -19,6 +19,7 @@
                 </div>
                 <div class="card-body">
                     <p><strong>Category:</strong> {{ $product->category->name }}</p>
+                    <p><strong>Type:</strong> {{ $product->type->name }}</p>
                     <p><strong>Base Price:</strong> {{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
                     <p><strong>Discount Price:</strong> {{ number_format($product->discount_price, 0, ',', '.') }} VNĐ</p>
                     <p><strong>Description:</strong> {{ $product->description }}</p>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Category;
+use App\Models\Type;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -29,6 +30,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
+            'type_id' => 'required|exists:types,id',
             'img' => 'nullable|image|max:2048'
         ]);
 
@@ -46,6 +48,7 @@ class ProductController extends Controller
             'discount_price' => $request->discount_price ?? 0,
             'description' => $request->description ?? '',
             'category_id' => $request->category_id,
+           'type_id' => $request->type_id,
             'img' => $imagePath,
         ]);
         if ($product) {
@@ -69,7 +72,8 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.create', compact('categories'));
+        $types = Type::all();
+        return view('admin.create', compact('categories','types'));
     }
 
     function show($id)

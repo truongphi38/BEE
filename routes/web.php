@@ -8,6 +8,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TypeController;
 
 // Admin controller
 use App\Http\Controllers\AdminController;
@@ -28,6 +29,7 @@ use App\Models\Product;
 Route::get('/admin2/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/admin2/users', [AdminController::class, 'userlist'])->name('admin.users');
 Route::get('/admin2/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/admin2/types', [TypeController::class, 'index'])->name('types.index');
 
 
 Route::post('admin2/products/store', [ProductController::class, 'store'])->name('product.store');
@@ -38,6 +40,8 @@ Route::post('/admin2/products/update/{id}', [AdminController::class, 'updateProd
 Route::get('/admin2/products/{id}', [ProductController::class, 'show'])->name('admin.product.show');
 
 
+Route::get('/admin2/type/create', [TypeController::class, 'create'])->name('type.create');
+Route::post('/admin2/type/store', [TypeController::class, 'store'])->name('type.store');
 
 
 

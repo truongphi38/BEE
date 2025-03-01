@@ -18,10 +18,16 @@ class Product extends Model
         'quantity',
         'category_id',
         'description',
+        'type_id',
     ];
 
     public function category(){
         return $this->belongsTo(Category::class);
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class, 'type_id');
     }
 
     public function product_variants() {

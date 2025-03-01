@@ -60,6 +60,15 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bolder">Type</label>
+                        <select name="type_id" class="form-select" required>
+                            <option value="">Choose Type</option>
+                            @foreach ($types as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
                     <div class="mb-3">
                         <label class="form-label fw-bolder">Image</label>

@@ -10,15 +10,16 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Image</th>
-                        <th>Base Price</th>
-                        <th class="text-danger bold">Discount Price</th>
-                        <th>Description</th>
-                        <th>Created At</th>
-                        <th>Updated At</th>
-                        <th>Action</th>
+                        <th>Tên</th>
+                        <th>Danh Mục</th>
+                        <th>Loại</th>
+                        <th>Hình Ảnh</th>
+                        <th>Giá Gốc</th>
+                        <th class="text-danger bold">Giá Giảm</th>
+                        <th>Mô Tả</th>
+                        <th>Ngày Tạo</th>
+                        <th>Ngày Cập Nhật</th>
+                        <th>Thao Tác</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,6 +28,7 @@
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->category->name}}</td>
+                        <td>{{ $item->type->name}}</td>
                         <td><img src="{{ asset($item->img) }}" width="80" alt="">
                         </td>
                         
@@ -36,13 +38,13 @@
                         <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
                         <td>{{ $item->updated_at->format('d/m/Y H:i') }}</td>
                         <td class="action-icons">
-                            <a class="text-success" href="{{ route('admin.product.show', $item->id) }}">Details</a>
-                            <a  href="{{ route('admin.product.edit', $item->id) }}"><span class="text-black">| </span>Edit</a> 
+                            <a class="text-success" href="{{ route('admin.product.show', $item->id) }}">Chi tiết</a>
+                            <a  href="{{ route('admin.product.edit', $item->id) }}"><span class="text-black">| </span>Chỉnh Sửa</a> 
                             
                             <form action="{{ route('admin.products.destroy', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this product?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" style="border: none; background: none; color: red; cursor: pointer;"><span class="text-black">|</span> Delete</button>
+                                <button type="submit" style="border: none; background: none; color: red; cursor: pointer;"><span class="text-black">|</span> Xoá</button>
                             </form>
                         </td>
                         
