@@ -23,7 +23,7 @@ return new class extends Migration
 
             // Thiết lập khóa ngoại
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('status_id')->references('id')->on('status')->onDelete('cascade');
+            $table->foreign('status_id')->references('id')->on('order_status')->onDelete('cascade');
             $table->foreign('promotion_id')->references('id')->on('promotions')->onDelete('set null');
        
         });

@@ -16,10 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('productvariant_id');
             $table->unsignedInteger('quantity');
-            $table->decimal('price', 10, 2);
-            $table->decimal('discount', 10, 2)->default(0);
+            //$table->decimal('price', 10, 2);
+            //$table->decimal('discount', 10, 2)->default(0);
             $table->decimal('total_price', 10, 2);
-            $table->string('product_name', 255);
+            //$table->string('product_name', 255);
             $table->timestamps();
 
             // Foreign keys
