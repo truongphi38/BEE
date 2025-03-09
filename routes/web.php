@@ -9,9 +9,11 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TypeController;
+use App\Http\Controllers\OrderController;
 
 // Admin controller
 use App\Http\Controllers\AdminController;
+use App\Models\Order;
 use App\Models\Product;
 
 /*
@@ -30,6 +32,7 @@ Route::get('/admin2/products', [ProductController::class, 'index'])->name('produ
 Route::get('/admin2/users', [AdminController::class, 'userlist'])->name('admin.users');
 Route::get('/admin2/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/admin2/types', [TypeController::class, 'index'])->name('types.index');
+Route::get('/admin2/orders', [OrderController::class, 'index'])->name('orders.index');
 
 
 Route::post('admin2/products/store', [ProductController::class, 'store'])->name('product.store');

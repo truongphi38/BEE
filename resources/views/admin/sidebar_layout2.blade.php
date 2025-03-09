@@ -46,7 +46,7 @@
                 {{-- <ul id="ordersMenu" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> --}}
                 <ul id="ordersMenu" class="collapse list-unstyled">
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{--  {{ route('admin.orders', ['status' => 'pending']) }}  --}}">
+                        <a class="sidebar-link" href="  {{ route('orders.index') }}  ">
                             <i class="align-middle" data-feather="clock"></i>
                             <span class="ms-3 align-middle">Danh Sách</span>
                         </a>
