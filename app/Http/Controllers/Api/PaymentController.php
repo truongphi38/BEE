@@ -69,5 +69,5 @@ class PaymentController extends Controller
 
         $payment->delete();
         return response()->json(['message' => 'Xóa thành công'], 200);
-    }
+ }
 }
