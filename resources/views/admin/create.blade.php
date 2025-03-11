@@ -29,10 +29,15 @@
                             </select>
                             <label class="form-label fw-bolder">Stock</label>
                             <input type="number" name="stock[]" class="form-control" min="1" required>
+                            <label class="form-label fw-bolder">Price</label>
+                            <input type="number" name="variant_price[]" class="form-control" min="1"  required>
+                            <label class="form-label fw-bolder">Discount Price</label>
+                            <input type="number" name="variant_discount_price[]" class="form-control" min="1" >
                             <button type="button" class="btn btn-danger mt-2 remove-variant">Cancel</button>
                         </div>
                     </div>
                     <button type="button" id="add-variant" class="btn btn-secondary mt-2">Add Size</button>
+                    
                     
 
                     <div class="row">
@@ -98,6 +103,10 @@
         </select>
         <label class="form-label">Stock</label>
         <input type="number" name="stock[]" class="form-control" min="1" required>
+        <label class="form-label">Price</label>
+        <input type="number" name="variant_price[]" class="form-control" min="1"  required>
+        <label class="form-label">Discount Price</label>
+        <input type="number" name="variant_discount_price[]" class="form-control" min="1" >
         <button type="button" class="btn btn-danger remove-variant">Cancel</button>
     `;
     variantContainer.appendChild(newVariant);
@@ -109,6 +118,7 @@ document.addEventListener('click', function (e) {
         e.target.parentElement.remove();
     }
 });
+
 
 </script>
 @endsection

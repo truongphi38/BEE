@@ -21,7 +21,7 @@ class OrderController extends Controller
             'user_id' => $request->user_id,
             'total_amount' => $request->total_amount,
             'status_id' => 1, // 1: Chờ xác nhận
-            'item_count' => $request->item_count,
+            //'item_count' => $request->item_count,
             'subtotal' => $request->subtotal,
             'promotion_id' => $request->promotion_id ?? null,
             'created_at' => now(),

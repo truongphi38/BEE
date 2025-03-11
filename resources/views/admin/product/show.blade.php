@@ -20,8 +20,8 @@
                 <div class="card-body">
                     <p><strong>Category:</strong> {{ $product->category->name }}</p>
                     <p><strong>Type:</strong> {{ $product->type->name }}</p>
-                    <p><strong>Base Price:</strong> {{ number_format($product->price, 0, ',', '.') }} VNĐ</p>
-                    <p><strong>Discount Price:</strong> {{ number_format($product->discount_price, 0, ',', '.') }} VNĐ</p>
+                    {{-- <p><strong>Base Price:</strong> {{ number_format($product->price, 0, ',', '.') }} VNĐ</p> --}}
+                    {{-- <p><strong>Discount Price:</strong> {{ number_format($product->discount_price, 0, ',', '.') }} VNĐ</p> --}}
                     <p><strong>Description:</strong> {{ $product->description }}</p>
                     <p><strong>Created At:</strong> {{ $product->created_at->format('d/m/Y H:i') }}</p>
                     <p><strong>Updated At:</strong> {{ $product->updated_at->format('d/m/Y H:i') }}</p>
@@ -32,14 +32,18 @@
                             <tr>
                                 <th>Size</th>
                                 <th>Stock</th>
+                                <th>Price</th>
+                                <th>Discount Price</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($product->product_variants as $variant)
                                 <tr>
-                                    <td>{{ $variant->size }}</td> 
+                                    <td>{{ $variant->size }}</td>
                                     <td>{{ $variant->stock_quantity }}</td>
+                                    <td>{{ number_format($variant->price, 0, ',', '.') }} VNĐ</td>
+                                    <td>{{ number_format($variant->discount_price, 0, ',', '.') }} VNĐ</td>
                                     <td>
                                         @if ($variant->stock_quantity > 0)
                                             <span class="badge bg-success">In Stock</span>
@@ -49,9 +53,9 @@
                                     </td>
                                 </tr>
                             @endforeach
-
                         </tbody>
                     </table>
+
 
 
                 </div>

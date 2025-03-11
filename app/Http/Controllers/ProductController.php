@@ -31,7 +31,11 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'type_id' => 'required|exists:types,id',
-            'img' => 'nullable|image|max:2048'
+            'img' => 'nullable|image|max:2048',
+            'size' => 'required|array',
+            'stock' => 'required|array',
+            'variant_price' => 'required|array',
+            'variant_discount_price' => 'nullable|array'
         ]);
 
         $imagePath = null;
@@ -48,7 +52,7 @@ class ProductController extends Controller
             'discount_price' => $request->discount_price ?? 0,
             'description' => $request->description ?? '',
             'category_id' => $request->category_id,
-           'type_id' => $request->type_id,
+            'type_id' => $request->type_id,
             'img' => $imagePath,
         ]);
         if ($product) {
@@ -58,7 +62,8 @@ class ProductController extends Controller
                         'product_id' => $product->id,
                         'size' => $size,
                         'stock_quantity' => $request->stock[$index] ?? 0, // Đổi từ stock_quantity thành stock
-                        'price' => $request->price
+                        'price' => $request->variant_price[$index],
+                        'discount_price' => $request->variant_discount_price[$index] ?? null
                     ]);
                 }
             }

@@ -14,7 +14,7 @@
                         <th>Danh Mục</th>
                         <th>Loại</th>
                         <th>Hình Ảnh</th>
-                        <th>Giá Gốc</th>
+                        <th>Giá</th>
                         <th class="text-danger bold">Giá Giảm</th>
                         <th>Mô Tả</th>
                         <th>Ngày Tạo</th>
@@ -33,7 +33,7 @@
                         </td>
                         
                         <td>{{ number_format($item->price,0,',','.')  }} VNĐ</td>
-                        <td class="text-danger" >{{ number_format($item->discount_price,0,',','.')  }} VNĐ</td>
+                        <td class="text-danger" >{{ number_format($item->discount_price,0,',','.')  }} VNĐ</td>  
                         <td>{{ $item->description}}</td>
                         <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
                         <td>{{ $item->updated_at->format('d/m/Y H:i') }}</td>

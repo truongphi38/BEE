@@ -34,7 +34,7 @@ class OrderController extends Controller
             'user_id' => 'required|integer|exists:users,id',
             'total_amount' => 'required|numeric',
             'status_id' => 'required|integer',
-            'item_count' => 'required|integer|min:1',
+            //'item_count' => 'required|integer|min:1',
             'subtotal' => 'required|numeric',
             'promotion_id' => 'nullable|integer|exists:promotions,id'
         ]);
@@ -63,7 +63,7 @@ class OrderController extends Controller
             'user_id' => 'sometimes|required|integer|exists:users,id',
             'total_amount' => 'sometimes|required|numeric',
             'status_id' => 'sometimes|required|integer',
-            'item_count' => 'sometimes|required|integer|min:1',
+            //'item_count' => 'sometimes|required|integer|min:1',
             'subtotal' => 'sometimes|required|numeric',
             'promotion_id' => 'nullable|integer|exists:promotions,id'
         ]);
