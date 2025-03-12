@@ -27,12 +27,12 @@
                     <tr>
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->code }}</td>
-                        <td>{{ $item->discount_percent }}</td>
+                        <td>{{ number_format($item->discount_percent,0) }}%</td>
                         <td>{{ $item->description }}</td>
-                        <td>{{ $item->start_date }}</td>
-                        <td>{{ $item->end_date }}</td>
-                        <td>{{ $item->created_at }}</td>
-                        <td>{{ $item->updated_at }}</td>
+                        <td>{{ \Carbon\Carbon::parse($item->start_date)->format('d/m/Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($item->end_date)->format('d/m/Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($item->created_at) }}</td>
+                        <td>{{ \Carbon\Carbon::parse($item->updated_at) }}</td>
                         <td class="action-icons">
                             <a href="{{ route('promotion.edit',$item->id)}}" >Chỉnh Sửa</a>                             
                             <form action="{{ route('promotion.delete',$item->id)}}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this category?');">
