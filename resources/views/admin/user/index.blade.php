@@ -14,7 +14,7 @@
                         <th>Email</th>
                         <th>Phone Number</th>
                         <th>Address</th>
-                        <th>Role</th>
+                        {{-- <th>Role</th> --}}
                         <th>Create At</th>
                         <th>Action</th>
                     </tr>
@@ -27,7 +27,7 @@
                         <td>{{ $item->email }}</td>
                         <td>{{ $item->phone }}</td>
                         <td>{{ $item->address }}</td>
-                        <td>{{ $item->roles->name }}</td>
+                        {{-- <td>{{ $item->roles->name }}</td> --}}
                         <td>{{ $item->created_at }}</td>
                         <td class="action-icons">
                             <a href="">Edit</a>
