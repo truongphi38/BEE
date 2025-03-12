@@ -10,11 +10,13 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PromotionController;
 
 // Admin controller
 use App\Http\Controllers\AdminController;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Promotion;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,14 +29,15 @@ use App\Models\Product;
 |
 */
 
-// admin
+// admin dashboard
 Route::get('/admin2/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/admin2/users', [AdminController::class, 'userlist'])->name('admin.users');
 Route::get('/admin2/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/admin2/types', [TypeController::class, 'index'])->name('types.index');
 Route::get('/admin2/orders', [OrderController::class, 'index'])->name('orders.index');
+Route::get('/admin2/promotions', [PromotionController::class, 'index'])->name('promotions.index');
 
-
+// products
 Route::post('admin2/products/store', [ProductController::class, 'store'])->name('product.store');
 Route::get('admin2/product/create', [ProductController::class, 'create'])->name('product.create');
 Route::delete('/admin2/products/{id}', [AdminController::class, 'destroyProduct'])->name('admin.products.destroy');
@@ -42,14 +45,22 @@ Route::get('/admin2/products/edit/{id}', [AdminController::class, 'editProduct']
 Route::post('/admin2/products/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.product.update');
 Route::get('/admin2/products/{id}', [ProductController::class, 'show'])->name('admin.product.show');
 
-
+// types
 Route::get('/admin2/type/create', [TypeController::class, 'create'])->name('type.create');
 Route::post('/admin2/type/store', [TypeController::class, 'store'])->name('type.store');
 
 
-
+// categories
 Route::get('/admin2/category/create', [AdminController::class, 'createCategory'])->name('admin.category.create');
 Route::post('/admin2/category/store', [AdminController::class, 'storeCategory'])->name('admin.category.store');
 Route::delete('/admin2/category/{id}', [AdminController::class, 'destroyCategory'])->name('admin.category.destroy');
 Route::get('/admin/category/{id}/edit', [AdminController::class, 'editCategory'])->name('admin.category.edit');
 Route::put('/admin/category/{id}', [AdminController::class, 'updateCategory'])->name('admin.category.update');
+
+
+// promotions
+Route::get('/admin2/promotion/create', [PromotionController::class, 'create'])->name('promotion.create');
+Route::post('/admin2/promotion/store', [PromotionController::class, 'store'])->name('promotion.store');
+Route::delete('/admin2/promotion/{id}', [PromotionController::class, 'delete'])->name('promotion.delete');
+Route::get('/admin2/promotion/{id}/edit', [PromotionController::class, 'edit'])->name('promotion.edit');
+Route::put('/admin2/promotion/{id}', [PromotionController::class, 'update'])->name('promotion.update');
