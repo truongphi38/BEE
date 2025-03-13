@@ -11,6 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\CommentController;
 
 // Admin controller
 use App\Http\Controllers\AdminController;
@@ -36,6 +37,7 @@ Route::get('/admin2/categories', [CategoryController::class, 'index'])->name('ca
 Route::get('/admin2/types', [TypeController::class, 'index'])->name('types.index');
 Route::get('/admin2/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::get('/admin2/promotions', [PromotionController::class, 'index'])->name('promotions.index');
+Route::get('/admin2/comments', [CommentController::class, 'index'])->name('comments.index');
 
 // products
 Route::post('admin2/products/store', [ProductController::class, 'store'])->name('product.store');
@@ -64,3 +66,6 @@ Route::post('/admin2/promotion/store', [PromotionController::class, 'store'])->n
 Route::delete('/admin2/promotion/{id}', [PromotionController::class, 'delete'])->name('promotion.delete');
 Route::get('/admin2/promotion/{id}/edit', [PromotionController::class, 'edit'])->name('promotion.edit');
 Route::put('/admin2/promotion/{id}', [PromotionController::class, 'update'])->name('promotion.update');
+
+// comments
+Route::delete('admin2/comments/{id}', [CommentController::class, 'delete'])->name('comments.delete');

@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CommentController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -72,4 +74,13 @@ Route::prefix('auth')->group(function () {
         Route::get('/user', [AuthController::class, 'user']);
         Route::post('/logout', [AuthController::class, 'logout']);
     });
+});
+
+//comments
+
+Route::prefix('comments')->group(function () {
+    Route::get('/', [CommentController::class, 'index']);
+    Route::post('/', [CommentController::class, 'store']);
+    Route::get('/{id}', [CommentController::class, 'show']);
+    Route::delete('/{id}', [CommentController::class, 'delete']);
 });

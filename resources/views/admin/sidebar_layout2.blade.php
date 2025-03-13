@@ -80,7 +80,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="pages-blank.html">
+                <a class="sidebar-link" href="{{route('comments.index')}}">
                     <i class="align-middle" data-feather="book"></i>
                     <span class="align-middle">Bình Luận</span>
                 </a>
