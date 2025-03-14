@@ -27,6 +27,19 @@ class OrderController extends Controller
         return response()->json($order, 200, [], JSON_PRETTY_PRINT);
     }
 
+    // Lấy danh sách đơn hàng theo user_id
+    public function getOrdersByUser($user_id): JsonResponse
+    {
+        $orders = Order::where('user_id', $user_id)->get();
+
+        if ($orders->isEmpty()) {
+            return response()->json(['message' => 'Không có đơn hàng nào cho user này'], 404);
+        }
+
+        return response()->json($orders, 200, [], JSON_PRETTY_PRINT);
+    }
+
+
     // Tạo đơn hàng mới
     public function store(Request $request): JsonResponse
     {
