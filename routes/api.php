@@ -59,6 +59,7 @@ Route::prefix('orders')->group(function () {
     Route::get('/{id}', [OrderController::class, 'show']); // Lấy thông tin đơn hàng theo ID
     Route::put('/{id}', [OrderController::class, 'update']); // Cập nhật đơn hàng
     Route::delete('/{id}', [OrderController::class, 'destroy']); // Xóa đơn hàng
+    Route::get('/user/{user_id}', [OrderController::class, 'getOrdersByUser']); // 
 });
 
 Route::get('/payments', [PaymentController::class, 'index']);
