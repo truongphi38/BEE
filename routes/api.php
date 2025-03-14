@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\PromotionController;
 
 
 /*
@@ -83,4 +84,10 @@ Route::prefix('comments')->group(function () {
     Route::post('/', [CommentController::class, 'store']);
     Route::get('/{id}', [CommentController::class, 'show']);
     Route::delete('/{id}', [CommentController::class, 'delete']);
+});
+
+//promotions
+Route::prefix('promotions')->group(function () {
+    Route::get('/', [PromotionController::class, 'index']); // Lấy tất cả promotions
+    Route::get('/{id}', [PromotionController::class, 'show']); // Lấy thông tin promotion theo ID
 });
