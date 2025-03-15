@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PromotionController;
+use App\Http\Controllers\Api\OrderDetailController;
 
 
 /*
@@ -60,6 +61,7 @@ Route::prefix('orders')->group(function () {
     Route::put('/{id}', [OrderController::class, 'update']); // Cập nhật đơn hàng
     Route::delete('/{id}', [OrderController::class, 'destroy']); // Xóa đơn hàng
     Route::get('/user/{user_id}', [OrderController::class, 'getOrdersByUser']); // 
+    
 });
 
 Route::get('/payments', [PaymentController::class, 'index']);
@@ -89,6 +91,10 @@ Route::prefix('comments')->group(function () {
 
 //promotions
 Route::prefix('promotions')->group(function () {
-    Route::get('/', [PromotionController::class, 'index']); // Lấy tất cả promotions
-    Route::get('/{id}', [PromotionController::class, 'show']); // Lấy thông tin promotion theo ID
+    Route::get('/', [PromotionController::class, 'index']); 
+    Route::get('/{id}', [PromotionController::class, 'show']);
 });
+
+//order_details
+Route::get('/orders/{id}/details', [OrderDetailController::class, 'show']);
+Route::post('/orders/{id}/details', [OrderDetailController::class, 'store']);
