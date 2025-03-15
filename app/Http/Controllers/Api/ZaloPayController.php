@@ -15,9 +15,7 @@ class ZaloPayController extends Controller
         $this->config = config('zalopay');
     }
 
-    /**
-     * API tạo đơn hàng thanh toán ZaloPay
-     */
+
     public function createPayment(Request $request)
     {
         $amount = $request->input('amount', 10000); // Số tiền
