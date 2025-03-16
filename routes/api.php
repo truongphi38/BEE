@@ -8,14 +8,14 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\AuthController;
-<<<<<<< HEAD
+
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\Api\OrderDetailController;
 
-=======
+
 use App\Http\Controllers\Api\ZaloPayController;
->>>>>>> fe7063669023918a4b80b511939d6da57624d354
+
 
 /*
 |--------------------------------------------------------------------------
@@ -64,11 +64,11 @@ Route::prefix('orders')->group(function () {
     Route::get('/{id}', [OrderController::class, 'show']); // Lấy thông tin đơn hàng theo ID
     Route::put('/{id}', [OrderController::class, 'update']); // Cập nhật đơn hàng
     Route::delete('/{id}', [OrderController::class, 'destroy']); // Xóa đơn hàng
-<<<<<<< HEAD
+
     Route::get('/user/{user_id}', [OrderController::class, 'getOrdersByUser']); // 
     
-=======
->>>>>>> fe7063669023918a4b80b511939d6da57624d354
+
+
 });
 
 Route::get('/payments', [PaymentController::class, 'index']);
@@ -90,7 +90,7 @@ Route::prefix('auth')->group(function () {
 Route::post('/zalopay/payment', [ZaloPayController::class, 'createPayment']);
 Route::get('/zalopay/status', [ZaloPayController::class, 'checkPaymentStatus']);
 
-<<<<<<< HEAD
+
 Route::prefix('comments')->group(function () {
     Route::get('/', [CommentController::class, 'index']);
     Route::post('/', [CommentController::class, 'store']);
@@ -107,5 +107,5 @@ Route::prefix('promotions')->group(function () {
 //order_details
 Route::get('/orders/{id}/details', [OrderDetailController::class, 'show']);
 Route::post('/orders/{id}/details', [OrderDetailController::class, 'store']);
-=======
->>>>>>> fe7063669023918a4b80b511939d6da57624d354
+
+
