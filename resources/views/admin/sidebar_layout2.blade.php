@@ -46,19 +46,19 @@
                 {{-- <ul id="ordersMenu" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> --}}
                 <ul id="ordersMenu" class="collapse list-unstyled">
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="  {{ route('orders.index') }}  ">
+                        <a class="sidebar-link " href="  {{ route('orders.index') }}  " >
                             <i class="align-middle" data-feather="clock"></i>
                             <span class="ms-3 align-middle">Danh Sách</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{--  {{ route('admin.orders', ['status' => 'pending']) }}  --}}">
+                        <a class="sidebar-link" href=" {{ route('orders.index2') }}  ">
                             <i class="align-middle" data-feather="clock"></i>
                             <span class="ms-3 align-middle">Chờ Xác Nhận</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{--  {{ route('admin.orders', ['status' => 'shipped']) }}  --}}">
+                        <a class="sidebar-link" href="  {{ route('orders.index3') }}  ">
                             <i class="align-middle" data-feather="check-circle"></i>
                             <span class="ms-3 align-middle">Đã Giao Hàng</span>
                         </a>
@@ -92,3 +92,18 @@
 
     </div>
 </nav>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    let menuItem = document.querySelector('.menu-item');
+    
+    if (localStorage.getItem('menu-open') === 'true') {
+        menuItem.classList.add('menu-open');
+    }
+
+    menuItem.addEventListener('click', function () {
+        let isOpen = menuItem.classList.toggle('menu-open');
+        localStorage.setItem('menu-open', isOpen);
+    });
+});
+
+</script>

@@ -36,8 +36,15 @@ Route::get('/admin2/users', [AdminController::class, 'userlist'])->name('admin.u
 Route::get('/admin2/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/admin2/types', [TypeController::class, 'index'])->name('types.index');
 Route::get('/admin2/orders', [OrderController::class, 'index'])->name('orders.index');
+
 Route::get('/admin2/promotions', [PromotionController::class, 'index'])->name('promotions.index');
 Route::get('/admin2/comments', [CommentController::class, 'index'])->name('comments.index');
+
+// orders
+Route::get('/admin2/orders/confirmed', [OrderController::class, 'index2'])->name('orders.index2');
+Route::get('/admin2/orders/delivered', [OrderController::class, 'index3'])->name('orders.index3');
+Route::get('/admin2/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+
 
 // products
 Route::post('admin2/products/store', [ProductController::class, 'store'])->name('product.store');
