@@ -9,79 +9,75 @@
                 Mục Lục
             </li>
 
-            <li class="sidebar-item active">
+            <li class="sidebar-item {{ Request::routeIs('products.index') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('products.index') }}">
-                    <i class="align-middle" data-feather="sliders"></i>
+                    <i class="align-middle" data-feather="tag"></i>
                     <span class="align-middle">Sản Phẩm</span>
                 </a>
             </li>
-
-            <li class="sidebar-item">
+            
+            <li class="sidebar-item {{ Request::routeIs('categories.index') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('categories.index') }}">
-                    <i class="align-middle" data-feather="user"></i>
+                    <i class="align-middle" data-feather="list"></i>
                     <span class="align-middle">Danh Mục</span>
                 </a>
             </li>
-            <li class="sidebar-item">
+            
+            <li class="sidebar-item {{ Request::routeIs('types.index') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('types.index') }}">
-                    <i class="align-middle" data-feather="log-in"></i>
+                    <i class="align-middle" data-feather="grid"></i>
                     <span class="align-middle">Loại Sản Phẩm</span>
                 </a>
             </li>
-
-            <li class="sidebar-item">
+            
+            <li class="sidebar-item {{ Request::routeIs('admin.users') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('admin.users') }}">
-                    <i class="align-middle" data-feather="log-in"></i>
+                    <i class="align-middle" data-feather="user"></i>
                     <span class="align-middle">Người Dùng</span>
                 </a>
             </li>
+            
 
 
-            <li class="sidebar-item">
+            <li class="sidebar-item {{ Request::routeIs('orders.*') ? 'active' : '' }}">
                 <a class="sidebar-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#ordersMenu"
                     aria-expanded="false">
                     <i class="align-middle" data-feather="shopping-cart"></i>
                     <span class="align-middle">Đơn Hàng</span>
                 </a>
-                {{-- <ul id="ordersMenu" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar"> --}}
                 <ul id="ordersMenu" class="collapse list-unstyled">
                     <li class="sidebar-item">
-                        <a class="sidebar-link " href="  {{ route('orders.index') }}  " >
+                        <a class="sidebar-link" href="{{ route('orders.index') }}">
                             <i class="align-middle" data-feather="clock"></i>
                             <span class="ms-3 align-middle">Danh Sách</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href=" {{ route('orders.index2') }}  ">
+                        <a class="sidebar-link" href="{{ route('orders.index2') }}">
                             <i class="align-middle" data-feather="clock"></i>
                             <span class="ms-3 align-middle">Chờ Xác Nhận</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="  {{ route('orders.index3') }}  ">
+                        <a class="sidebar-link" href="{{ route('orders.index3') }}">
                             <i class="align-middle" data-feather="check-circle"></i>
                             <span class="ms-3 align-middle">Đã Giao Hàng</span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{-- {{ route('admin.orders', ['status' => 'cancelled']) }}  --}}">
-                            <i class="align-middle" data-feather="x-circle"></i>
-                            <span class="ms-3 align-middle">Đã Hủy</span>
-                        </a>
-                    </li>
                 </ul>
             </li>
+            
 
-            <li class="sidebar-item">
+            <li class="sidebar-item {{ Request::routeIs('promotions.index') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('promotions.index') }}">
-                    <i class="align-middle" data-feather="book"></i>
+                    <i class="align-middle" data-feather="percent"></i>
                     <span class="align-middle">Mã Khuyến Mãi</span>
                 </a>
             </li>
 
-            <li class="sidebar-item">
+            <li class="sidebar-item {{ Request::routeIs('comments.index') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{route('comments.index')}}">
-                    <i class="align-middle" data-feather="book"></i>
+                    <i class="align-middle" data-feather="message-square"></i>
                     <span class="align-middle">Bình Luận</span>
                 </a>
             </li>
