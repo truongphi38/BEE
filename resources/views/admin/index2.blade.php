@@ -4,8 +4,8 @@
 
 <main class="content">
     <div class="container-fluid p-0">
-        <h1 class="h3 mb-3"><strong>Product</strong> Management</h1>       
-        <a href="{{ route('product.create') }}" class="btn btn-primary">Add Product</a>
+        <h1 class="h3 mb-3">Quản Lý<strong> Sản Phẩm</strong></h1>       
+        <a href="{{ route('product.create') }}" class="btn btn-primary">Thêm Sản Phẩm</a>
             <table  id="myTable" class="table table-striped" >
                 <thead>
                     <tr>

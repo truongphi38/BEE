@@ -4,19 +4,19 @@
 
 <main class="content">
     <div class="container-fluid p-0">
-        <h1 class="h3 mb-3"><strong>User</strong> Management</h1>
+        <h1 class="h3 mb-3">Quản Lý <strong>Khách Hàng</strong></h1>
         
             <table id="myTable" class="table table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
+                        <th>Tên</th>
                         <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Address</th>
+                        <th>Số Điện Thoại</th>
+                        <th>Địa Chỉ</th>
                         {{-- <th>Role</th> --}}
-                        <th>Create At</th>
-                        <th>Action</th>
+                        <th>Ngày Tạo</th>
+                        <th>Thao Tác</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,9 +30,9 @@
                         {{-- <td>{{ $item->roles->name }}</td> --}}
                         <td>{{ $item->created_at }}</td>
                         <td class="action-icons">
-                            <a href="">Edit</a>
+                            <a href="">Điều Chỉnh</a>
                             -
-                            <a href="">Delete</a>
+                            <a href="">Xoá</a>
                             {{-- <form action="{{ route('admin2.products.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
                                 @csrf
                                 @method('DELETE') --}}

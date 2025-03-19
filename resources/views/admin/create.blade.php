@@ -5,7 +5,7 @@
     <div class="container mt-4">
         <div class="card shadow-lg">
             <div class="card-header bg-primary text-white">
-                <h4 style="font-weight: bolder" class="mb-0 text-white">New Product</h4>
+                <h4 style="font-weight: bolder" class="mb-0 text-white">Thêm Sản Phẩm</h4>
             </div>
             <div class="card-body">
                 @if(session('success'))
@@ -14,7 +14,7 @@
                 <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
-                        <label  class="form-label fw-bolder">Name</label>
+                        <label  class="form-label fw-bolder">Tên</label>
                         <input type="text" name="name" class="form-control" placeholder="Nhập tên sản phẩm" required>
                     </div>
 
@@ -27,48 +27,48 @@
                                 <option value="L">L</option>
                                 <option value="XL">XL</option>
                             </select>
-                            <label class="form-label fw-bolder">Stock</label>
+                            <label class="form-label fw-bolder">Số Lượng</label>
                             <input type="number" name="stock[]" class="form-control" min="1" required>
-                            <label class="form-label fw-bolder">Price</label>
+                            <label class="form-label fw-bolder">Giá</label>
                             <input type="number" name="variant_price[]" class="form-control" min="1"  required>
-                            <label class="form-label fw-bolder">Discount Price</label>
+                            <label class="form-label fw-bolder">Giá Khuyến Mãi (Nếu có)</label>
                             <input type="number" name="variant_discount_price[]" class="form-control" min="1" >
-                            <button type="button" class="btn btn-danger mt-2 remove-variant">Cancel</button>
+                            <button type="button" class="btn btn-danger mt-2 remove-variant">Huỷ</button>
                         </div>
                     </div>
-                    <button type="button" id="add-variant" class="btn btn-secondary mt-2">Add Size</button>
+                    <button type="button" id="add-variant" class="btn btn-secondary mt-2">Thêm</button>
                     
                     
 
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bolder">Price</label>
+                        <div class="col-md-6 mt-2 mb-3">
+                            <label class="form-label fw-bolder">Giá</label>
                             <input type="number" name="price" class="form-control" placeholder="Nhập giá sản phẩm" required>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bolder">Discount Price</label>
+                        <div class="col-md-6 mt-2 mb-3">
+                            <label class="form-label fw-bolder">Giá Khuyến Mãi (Nếu có)</label>
                             <input type="number" name="discount_price" class="form-control" placeholder="Nhập giá giảm">
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bolder">Description</label>
+                        <label class="form-label fw-bolder">Mô tả</label>
                         <textarea name="description" class="form-control" placeholder="Nhập mô tả sản phẩm"></textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bolder">Category</label>
+                        <label class="form-label fw-bolder">Danh Mục</label>
                         <select name="category_id" class="form-select" required>
-                            <option value="">Choose Category</option>
+                            <option value="">Chọn Danh Mục</option>
                             @foreach ($categories as $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label fw-bolder">Type</label>
+                        <label class="form-label fw-bolder">Loại</label>
                         <select name="type_id" class="form-select" required>
-                            <option value="">Choose Type</option>
+                            <option value="">Chọn Loại</option>
                             @foreach ($types as $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
@@ -76,12 +76,12 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bolder">Image</label>
+                        <label class="form-label fw-bolder">Hình Ảnh</label>
                         <input type="file" name="img" class="form-control">
                     </div>
 
                     <div class="text-end">
-                        <button type="submit" class="btn btn-success">ADD</button>
+                        <button type="submit" class="btn btn-success">Thêm</button>
                     </div>
                 </form>
             </div>
@@ -101,13 +101,13 @@
             <option value="L">L</option>
             <option value="XL">XL</option>
         </select>
-        <label class="form-label">Stock</label>
+        <label class="form-label">Số Lượng</label>
         <input type="number" name="stock[]" class="form-control" min="1" required>
-        <label class="form-label">Price</label>
+        <label class="form-label">Giá</label>
         <input type="number" name="variant_price[]" class="form-control" min="1"  required>
-        <label class="form-label">Discount Price</label>
+        <label class="form-label">Giá Khuyến Mãi (Nếu có)</label>
         <input type="number" name="variant_discount_price[]" class="form-control" min="1" >
-        <button type="button" class="btn btn-danger remove-variant">Cancel</button>
+        <button type="button" class="btn btn-danger mt-2 remove-variant">Huỷ</button>
     `;
     variantContainer.appendChild(newVariant);
 });

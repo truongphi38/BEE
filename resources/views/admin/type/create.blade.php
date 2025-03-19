@@ -17,12 +17,12 @@
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">Tên Loại</label>
-                        <input type="text" name="name" class="form-control" placeholder="Enter type name" required>
+                        <input type="text" name="name" class="form-control" placeholder="Nhập tên" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Mô Tả</label>
-                        <textarea name="description" class="form-control" placeholder="Enter category description"></textarea>
+                        <textarea name="description" class="form-control" placeholder="Nhập mô tả"></textarea>
                     </div>
 
                     <div class="text-end">
