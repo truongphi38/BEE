@@ -11,6 +11,8 @@
                     <th>ID</th>
                     <th>Ngày đặt</th>
                     <th>Trạng thái</th>
+                    <th>Tổng tiền sản phẩm</th>
+                    <th>Voucher</th>
                     <th>Tổng tiền</th>
                     <th>Hành động</th>
                 </tr>
@@ -29,6 +31,8 @@
                             <span class="badge bg-danger">Đã hủy</span>
                         @endif
                     </td>
+                    <td>{{ number_format($order->subtotal, 0, ',', '.') }} đ</td>
+                    <td>{{ $order->promotion->code }} </td>
                     <td>{{ number_format($order->total_amount, 0, ',', '.') }} đ</td>
                     <td>
                         <a href="{{ route('orders.show', $order->id)}}" class="btn btn-primary btn-sm">Chi tiết</a>

@@ -29,7 +29,10 @@
         </tbody>
     </table>
 
-    <p><strong>Tổng đơn hàng:</strong> {{ number_format($order->total_amount, 0, ',', '.') }} đ</p>
+    <p><strong>Tổng đơn hàng:</strong> 
+        {{ number_format($order->orderDetails->sum('total_price'), 0, ',', '.') }} đ
+    </p>
+    
 
     <a href="{{ route('orders.index') }}" class="btn btn-secondary">Quay lại</a>
 @endsection
