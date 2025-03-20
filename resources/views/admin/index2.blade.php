@@ -18,7 +18,7 @@
                         <th class="text-danger bold">Giá Giảm</th>
                         <th>Mô Tả</th>
                         <th>Ngày Tạo</th>
-                        <th>Ngày Cập Nhật</th>
+                        <th>Lượt Thích</th>
                         <th>Thao Tác</th>
                     </tr>
                 </thead>
@@ -36,7 +36,9 @@
                         <td class="text-danger" >{{ number_format($item->discount_price,0,',','.')  }} VNĐ</td>  
                         <td>{{ $item->description}}</td>
                         <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
-                        <td>{{ $item->updated_at->format('d/m/Y H:i') }}</td>
+                        
+                        <td>{{ $item->wishlists_count }}</td>
+
                         <td class="action-icons">
                             <a class="text-success" href="{{ route('admin.product.show', $item->id) }}">Chi tiết</a>
                             <a  href="{{ route('admin.product.edit', $item->id) }}"><span class="text-black">| </span>Chỉnh Sửa</a> 

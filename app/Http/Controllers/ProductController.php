@@ -15,13 +15,20 @@ class ProductController extends Controller
     {
         return view('detail');
     }
-    public function index()
-    {
+    // public function index()
+    // {
 
-        $products = Product::all();
-        $categories = Category::all();
-        return view('admin.index2', compact('products', 'categories'));
-    }
+    //     $products = Product::all();
+    //     $categories = Category::all();
+    //     return view('admin.index2', compact('products', 'categories'));
+    // }
+    public function index()
+{
+    $products = Product::withCount('wishlists')->get(); // Đếm số lượt thích
+    $categories = Category::all();
+    return view('admin.index2', compact('products', 'categories'));
+}
+
 
 
     function store(Request $request)
