@@ -13,6 +13,7 @@
                     <th>Trạng thái</th>
                     <th>Tổng tiền sản phẩm</th>
                     <th>Voucher</th>
+                    <th>Mô tả</th>
                     <th>Tổng tiền</th>
                     <th>Hành động</th>
                 </tr>
@@ -33,6 +34,7 @@
                     </td>
                     <td>{{ number_format($order->subtotal, 0, ',', '.') }} đ</td>
                     <td>{{ $order->promotion->code }} </td>
+                    <td>{{ $order->promotion->description }} </td>
                     <td>{{ number_format($order->total_amount, 0, ',', '.') }} đ</td>
                     <td>
                         <a href="{{ route('orders.show', $order->id)}}" class="btn btn-primary btn-sm">Chi tiết</a>
