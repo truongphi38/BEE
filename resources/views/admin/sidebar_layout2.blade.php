@@ -47,12 +47,6 @@
                 </a>
                 <ul id="ordersMenu" class="collapse list-unstyled">
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('orders.index') }}">
-                            <i class="align-middle" data-feather="clock"></i>
-                            <span class="ms-3 align-middle">Danh Sách</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('orders.index2') }}">
                             <i class="align-middle" data-feather="clock"></i>
                             <span class="ms-3 align-middle">Chờ Xác Nhận</span>
@@ -64,6 +58,14 @@
                             <span class="ms-3 align-middle">Đã Giao Hàng</span>
                         </a>
                     </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('orders.index') }}">
+                            <i class="align-middle" data-feather="clock"></i>
+                            <span class="ms-3 align-middle">Danh Sách</span>
+                        </a>
+                    </li>
+                    
+                    
                 </ul>
             </li>
             

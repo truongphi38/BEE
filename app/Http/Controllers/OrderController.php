@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Promotion;
 
@@ -37,8 +38,9 @@ class OrderController extends Controller
 
     public function show($id)
     {
+        $product = Product::all();
         $order = Order::with(['user', 'orderDetails.productVariant'])->findOrFail($id);
-        return view('admin.orders.show', compact('order'));
+        return view('admin.orders.show', compact('order','product'));
     }
 
 
@@ -64,6 +66,8 @@ class OrderController extends Controller
             'promotion_id' => $request->promotion_id ?? null,
             'created_at' => now(),
             'updated_at' => now(),
+            'user_address' => $request->user_address,
+            'user_phone' => $request->user_phone,
         ]);
 
         $subtotal = 0; // Biến để tính tổng tiền hàng

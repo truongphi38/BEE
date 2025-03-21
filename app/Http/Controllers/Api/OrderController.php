@@ -66,6 +66,8 @@ class OrderController extends Controller
             'promotion_id' => $request->promotion_id ?? null,
             'created_at' => now(),
             'updated_at' => now(),
+            'user_address' => $request->user_address,
+            'user_phone' => $request->user_phone,
         ]);
 
         $subtotal = 0; // Biến để tính tổng tiền hàng

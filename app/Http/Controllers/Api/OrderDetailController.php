@@ -28,6 +28,7 @@ class OrderDetailController extends Controller
             'products' => $order->orderDetails->map(function ($detail) {
                 return [
                     'product_name' => $detail->productVariant->product->name,
+                    'product_img' => $detail->productVariant->product->img,
                     'variant' => $detail->productVariant->size,
                     'quantity' => $detail->quantity,
                     'price' => $detail->productVariant->price,
