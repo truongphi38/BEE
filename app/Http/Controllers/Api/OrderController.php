@@ -58,11 +58,14 @@ class OrderController extends Controller
     DB::beginTransaction();
     try {
         // 1. Tạo đơn hàng ban đầu với subtotal = 0
+        $paymentMethod = $request->payment_method; // Lấy phương thức thanh toán từ request
+        $statusId = ($paymentMethod === 'ZaloPay') ? 2 : 1;
         $order = Order::create([
             'user_id' => $request->user_id,
             'subtotal' => 0, // Tạm thời 0, lát cập nhật lại
             'total_amount' => 0, // Tạm thời 0
-            'status_id' => 1, // Chờ xác nhận
+            'status_id' => $statusId,
+            'payment_method' => $paymentMethod,
             'promotion_id' => $request->promotion_id ?? null,
             'created_at' => now(),
             'updated_at' => now(),

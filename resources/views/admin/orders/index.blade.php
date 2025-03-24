@@ -15,27 +15,31 @@
                     <th>Voucher</th>
                     <th>Mô tả</th>
                     <th>Tổng tiền</th>
+                    <th>Hình thức thanh toán</th>
                     <th>Hành động</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($orders as $order)
                 <tr>
-                    <td>DH{{ $order->id }}</td>
+                    <td><a style="font-weight: bolder" href="{{ route('orders.show', $order->id)}}">DH{{ $order->id }}</a></td>
                     <td>{{ $order->created_at }}</td>
-                    <td>
-                        @if ($order->status_id == 1)
-                            <span class="badge bg-warning">Chờ xác nhận</span>
-                        @elseif ($order->status_id == 2)
-                            <span class="badge bg-success">Đã giao hàng</span>
-                        @elseif ($order->status_id == 3)
-                            <span class="badge bg-danger">Đã hủy</span>
-                        @endif
-                    </td>
+                    <td><span class="badge bg-success">{{ $order->status->name }}</span></td>
+
                     <td>{{ number_format($order->subtotal, 0, ',', '.') }} đ</td>
                     <td>{{ $order->promotion->code }} </td>
                     <td>{{ $order->promotion->description }} </td>
                     <td>{{ number_format($order->total_amount, 0, ',', '.') }} đ</td>
+                    <td>{{ $order->payment_method}}</td>
+                    {{-- <td>
+                        @if ($order->status_id == 1)
+                            COD
+                        @elseif ($order->status_id == 2)
+                            ZaloPay
+                        @else
+                            {{ $order->payment_method == 'COD' ? 'COD' : 'ZaloPay' }}
+                        @endif
+                    </td> --}}
                     <td>
                         <a href="{{ route('orders.show', $order->id)}}" class="btn btn-primary btn-sm">Chi tiết</a>
                     </td>

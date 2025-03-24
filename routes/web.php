@@ -41,9 +41,12 @@ Route::get('/admin2/promotions', [PromotionController::class, 'index'])->name('p
 Route::get('/admin2/comments', [CommentController::class, 'index'])->name('comments.index');
 
 // orders
-Route::get('/admin2/orders/confirmed', [OrderController::class, 'index2'])->name('orders.index2');
-Route::get('/admin2/orders/delivered', [OrderController::class, 'index3'])->name('orders.index3');
+Route::get('/admin2/orders/pending', [OrderController::class, 'pending'])->name('orders.pending');
+Route::get('/admin2/orders/confirmed', [OrderController::class, 'confirmed'])->name('orders.confirmed');
+Route::get('/admin2/orders/shipping', [OrderController::class, 'shipping'])->name('orders.shipping');
 Route::get('/admin2/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+Route::put('/admin2/orders/{id}/confirm', [OrderController::class, 'confirmOrder'])->name('orders.confirm');
+
 
 
 // products
