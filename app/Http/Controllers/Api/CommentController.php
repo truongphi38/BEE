@@ -53,7 +53,7 @@ class CommentController extends Controller
     public function delete($id)
     {
         $comment = Comment::find($id);
-        
+
         if (!$comment) {
             return response()->json(['status' => 'error', 'message' => 'Không tìm thấy bình luận'], 404);
         }
