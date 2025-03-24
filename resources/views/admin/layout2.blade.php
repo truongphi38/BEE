@@ -26,7 +26,12 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css">
 	<link href="node_modules/@adminkit/core/dist/css/app.css" rel="stylesheet">
 
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    
     <!-- DataTables JS -->
+
     <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/@adminkit/core@3.2.0/dist/css/app.css" rel="stylesheet">
 
