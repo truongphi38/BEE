@@ -9,16 +9,17 @@ class Comment extends Model
 {
     use HasFactory;
 
-    protected $table = 'comment';
+    protected $table = 'comment'; // Chỉ định đúng tên bảng trong database
+
     protected $fillable = ['user_id', 'product_id', 'content'];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\Product;
+
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -63,5 +65,30 @@ class CommentController extends Controller
             'message' => 'Bình luận đã được xóa'
         ]);
     }
+    public function getCommentsByProduct($productId)
+    {
+        try {
+            $product = Product::with('comments.user')->find($productId);
+    
+            if (!$product) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Không tìm thấy sản phẩm'
+                ], 404);
+            }
+    
+            return response()->json([
+                'status' => 'success',
+                'data' => $product->comments
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Lỗi server',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
 }
 
