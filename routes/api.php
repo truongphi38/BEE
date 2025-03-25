@@ -12,10 +12,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\Api\OrderDetailController;
-
-
-use App\Http\Controllers\Api\ZaloPayController;
-
+use App\Http\Controllers\ZaloPayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,9 +84,8 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-Route::post('/zalopay/payment', [ZaloPayController::class, 'createPayment']);
-Route::get('/zalopay/status', [ZaloPayController::class, 'checkPaymentStatus']);
 
+Route::post('/zalopay/payment', [ZaloPayController::class, 'createPayment']);
 
 Route::prefix('comments')->group(function () {
     Route::get('/', [CommentController::class, 'index']);
@@ -97,6 +93,7 @@ Route::prefix('comments')->group(function () {
     Route::get('/{id}', [CommentController::class, 'show']);
     Route::delete('/{id}', [CommentController::class, 'delete']);
 });
+Route::get('/products/{id}/comments', [CommentController::class, 'getCommentsByProduct']);
 
 //promotions
 Route::prefix('promotions')->group(function () {
@@ -109,5 +106,15 @@ Route::get('/orders/{id}/details', [OrderDetailController::class, 'show']);
 Route::post('/orders/{id}/details', [OrderDetailController::class, 'store']);
 
 
-//wishlist
-Route::post('/wishlist/add', [WishlistController::class, 'addToWishlist']);
+// Wishlist
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/wishlist', [WishlistController::class, 'index']); // Lấy danh sách wishlist
+    Route::post('/wishlist/add', [WishlistController::class, 'addToWishlist']); // Thêm sản phẩm vào wishlist
+    Route::delete('/wishlist/remove', [WishlistController::class, 'removeFromWishlist']); // Xóa sản phẩm khỏi wishlist
+    Route::get('/wishlist/check', [WishlistController::class, 'checkWishlist']); // Kiểm tra sản phẩm có trong wishlist không
+    Route::post('/wishlist/sync', [WishlistController::class, 'syncWishlist']); // Đồng bộ wishlist khi đăng nhập
+});
+
+
+Route::post('/zalopay/create', [ZaloPayController::class, 'createOrder']);
+Route::post('/zalopay/callback', [ZaloPayController::class, 'callback'])->name('zalopay.callback');
