@@ -47,85 +47,85 @@ class OrderController extends Controller
 
     // Tạo đơn hàng mới
     public function store(Request $request)
-{
-    $request->validate([
-        'user_id' => 'required|exists:users,id',
-        'products' => 'required|array',
-        'products.*.productvariant_id' => 'required|exists:product_variants,id',
-        'products.*.quantity' => 'required|integer|min:1',
-    ]);
-
-    DB::beginTransaction();
-    try {
-        // 1. Tạo đơn hàng ban đầu với subtotal = 0
-        $paymentMethod = $request->payment_method; // Lấy phương thức thanh toán từ request
-        $statusId = ($paymentMethod === 'ZaloPay') ? 2 : 1;
-        $order = Order::create([
-            'user_id' => $request->user_id,
-            'subtotal' => 0, // Tạm thời 0, lát cập nhật lại
-            'total_amount' => 0, // Tạm thời 0
-            'status_id' => $statusId,
-            'payment_method' => $paymentMethod,
-            'promotion_id' => $request->promotion_id ?? null,
-            'created_at' => now(),
-            'updated_at' => now(),
-            'user_address' => $request->user_address,
-            'user_phone' => $request->user_phone,
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'products' => 'required|array',
+            'products.*.productvariant_id' => 'required|exists:product_variants,id',
+            'products.*.quantity' => 'required|integer|min:1',
         ]);
 
-        $subtotal = 0; // Biến để tính tổng tiền hàng
-        $orderDetails = [];
-
-        // 2. Lưu chi tiết đơn hàng và kiểm tra kho hàng
-        foreach ($request->products as $product) {
-            $variant = ProductVariant::find($product['productvariant_id']);
-
-            if (!$variant || $variant->stock_quantity < $product['quantity']) {
-                DB::rollBack(); // Hủy giao dịch nếu có sản phẩm không đủ hàng
-                return response()->json(['message' => 'Sản phẩm không đủ hàng'], 400);
-            }
-
-            $total_price = $variant->price * $product['quantity'];
-            $subtotal += $total_price;
-
-            $orderDetails[] = [
-                'order_id' => $order->id,
-                'productvariant_id' => $product['productvariant_id'],
-                'quantity' => $product['quantity'],
-                'total_price' => $total_price,
+        DB::beginTransaction();
+        try {
+            // 1. Tạo đơn hàng ban đầu với subtotal = 0
+            $paymentMethod = $request->payment_method; // Lấy phương thức thanh toán từ request
+            $statusId = ($paymentMethod === 'ZaloPay') ? 2 : 1;
+            $order = Order::create([
+                'user_id' => $request->user_id,
+                'subtotal' => 0, // Tạm thời 0, lát cập nhật lại
+                'total_amount' => 0, // Tạm thời 0
+                'status_id' => $statusId,
+                'payment_method' => $paymentMethod,
+                'promotion_id' => $request->promotion_id ?? null,
                 'created_at' => now(),
                 'updated_at' => now(),
-            ];
+                'user_address' => $request->user_address,
+                'user_phone' => $request->user_phone,
+            ]);
 
-            // 3. Trừ kho hàng
-            $variant->decrement('stock_quantity', $product['quantity']);
-        }
+            $subtotal = 0; // Biến để tính tổng tiền hàng
+            $orderDetails = [];
 
-        // 4. Chèn tất cả OrderDetail một lần (tối ưu hiệu suất)
-        OrderDetail::insert($orderDetails);
+            // 2. Lưu chi tiết đơn hàng và kiểm tra kho hàng
+            foreach ($request->products as $product) {
+                $variant = ProductVariant::find($product['productvariant_id']);
 
-        // 5. Tính lại khuyến mãi dựa trên tổng tiền hàng
-        $discount = 0;
-        if (!empty($request->promotion_id)) {
-            $promotion = Promotion::find($request->promotion_id);
-            if ($promotion) {
-                $discount = ($subtotal * $promotion->discount_percent) / 100;
+                if (!$variant || $variant->stock_quantity < $product['quantity']) {
+                    DB::rollBack(); // Hủy giao dịch nếu có sản phẩm không đủ hàng
+                    return response()->json(['message' => 'Sản phẩm không đủ hàng'], 400);
+                }
+
+                $total_price = $variant->price * $product['quantity'];
+                $subtotal += $total_price;
+
+                $orderDetails[] = [
+                    'order_id' => $order->id,
+                    'productvariant_id' => $product['productvariant_id'],
+                    'quantity' => $product['quantity'],
+                    'total_price' => $total_price,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+
+                // 3. Trừ kho hàng
+                $variant->decrement('stock_quantity', $product['quantity']);
             }
+
+            // 4. Chèn tất cả OrderDetail một lần (tối ưu hiệu suất)
+            OrderDetail::insert($orderDetails);
+
+            // 5. Tính lại khuyến mãi dựa trên tổng tiền hàng
+            $discount = 0;
+            if (!empty($request->promotion_id)) {
+                $promotion = Promotion::find($request->promotion_id);
+                if ($promotion) {
+                    $discount = ($subtotal * $promotion->discount_percent) / 100;
+                }
+            }
+
+            // 6. Cập nhật lại subtotal và total_amount trong đơn hàng
+            $order->update([
+                'subtotal' => $subtotal,
+                'total_amount' => max(0, $subtotal - $discount)
+            ]);
+
+            DB::commit();
+            return response()->json(['message' => 'Đơn hàng đã được tạo thành công!', 'order' => $order], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Đã xảy ra lỗi khi tạo đơn hàng!', 'error' => $e->getMessage()], 500);
         }
-
-        // 6. Cập nhật lại subtotal và total_amount trong đơn hàng
-        $order->update([
-            'subtotal' => $subtotal,
-            'total_amount' => max(0, $subtotal - $discount)
-        ]);
-
-        DB::commit();
-        return response()->json(['message' => 'Đơn hàng đã được tạo thành công!', 'order' => $order], 201);
-    } catch (\Exception $e) {
-        DB::rollBack();
-        return response()->json(['message' => 'Đã xảy ra lỗi khi tạo đơn hàng!', 'error' => $e->getMessage()], 500);
     }
-}
 
 
     // Cập nhật đơn hàng
@@ -140,7 +140,6 @@ class OrderController extends Controller
             'user_id' => 'sometimes|required|integer|exists:users,id',
             'total_amount' => 'sometimes|required|numeric',
             'status_id' => 'sometimes|required|integer',
-            //'item_count' => 'sometimes|required|integer|min:1',
             'subtotal' => 'sometimes|required|numeric',
             'promotion_id' => 'nullable|integer|exists:promotions,id'
         ]);
@@ -151,11 +150,25 @@ class OrderController extends Controller
 
         $order->update($request->all());
 
+        // Load quan hệ status để lấy name
+        $order->load('status');
+
         return response()->json([
             'message' => 'Cập nhật đơn hàng thành công!',
-            'order' => $order
+            'order' => [
+                'id' => $order->id,
+                'user_id' => $order->user_id,
+                'total_amount' => $order->total_amount,
+                'status_id' => $order->status_id,
+                'status_name' => $order->status->name ?? null, // Trả về tên status
+                'subtotal' => $order->subtotal,
+                'promotion_id' => $order->promotion_id,
+                'created_at' => $order->created_at,
+                'updated_at' => $order->updated_at,
+            ]
         ], 200);
     }
+
 
     // Xóa đơn hàng
     public function destroy($id): JsonResponse
