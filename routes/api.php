@@ -98,12 +98,23 @@ Route::post('/zalopay/payment', [ZaloPayController::class, 'createPayment']);
 
 
 
+// Route::prefix('comments')->group(function () {
+//     Route::get('/', [CommentController::class, 'index']);
+//     Route::post('/', [CommentController::class, 'store']);
+//     Route::get('/{id}', [CommentController::class, 'show']);
+//     Route::delete('/{id}', [CommentController::class, 'delete']);
+// });
+
 Route::prefix('comments')->group(function () {
     Route::get('/', [CommentController::class, 'index']);
     Route::post('/', [CommentController::class, 'store']);
     Route::get('/{id}', [CommentController::class, 'show']);
     Route::delete('/{id}', [CommentController::class, 'delete']);
 });
+Route::get('/products/{id}/comments', [CommentController::class, 'getCommentsByProduct']);
+
+
+
 
 //promotions
 Route::prefix('promotions')->group(function () {
