@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\Api\OrderDetailController;
 use App\Http\Controllers\ZaloPayController;
+use App\Http\Controllers\Api\ReviewController;
 
 
 
@@ -129,3 +130,9 @@ Route::post('/orders/{id}/details', [OrderDetailController::class, 'store']);
 
 //wishlist
 Route::post('/wishlist/add', [WishlistController::class, 'addToWishlist']);
+
+
+
+Route::post('/reviews', [ReviewController::class, 'store']);
+Route::get('/products/{productId}/reviews', [ReviewController::class, 'getReviewsByProduct']);
+
