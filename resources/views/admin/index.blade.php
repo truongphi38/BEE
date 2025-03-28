@@ -56,7 +56,7 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col mt-0">
-                                                        <h5 class="card-title">Lượt Truy Cập</h5>
+                                                        <h5 class="card-title text-primary">Lượt Truy Cập</h5>
                                                     </div>
                                         
                                                     <div class="col-auto">
