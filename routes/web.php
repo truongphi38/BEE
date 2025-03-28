@@ -34,6 +34,7 @@ use App\Models\Promotion;
 
 // admin dashboard
 Route::get('/admin2/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/', [HomeController::class, 'index'])->name('dashboard.index');
 Route::get('/admin2/users', [AdminController::class, 'userlist'])->name('admin.users');
 Route::get('/admin2/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/admin2/types', [TypeController::class, 'index'])->name('types.index');
