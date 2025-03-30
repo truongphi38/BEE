@@ -19,7 +19,7 @@ class ProductController extends Controller
     {
         $products = Product::with(['category', 'type', 'product_variants'])
             ->select('id', 'name', 'img', 'description', 'price', 'discount_price', 'category_id', 'type_id', 'created_at', 'updated_at')
-            ; // 10 sản phẩm mỗi trang
+            ->get(); // 10 sản phẩm mỗi trang
 
         return response()->json($products, 200);
     }
