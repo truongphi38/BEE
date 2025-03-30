@@ -13,6 +13,8 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\Api\OrderDetailController;
 use App\Http\Controllers\ZaloPayController;
+use App\Http\Controllers\Api\ReviewController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -66,8 +68,8 @@ Route::prefix('orders')->group(function () {
     Route::put('/{id}', [OrderController::class, 'update']); // Cập nhật đơn hàng
     Route::delete('/{id}', [OrderController::class, 'destroy']); // Xóa đơn hàng
 
-    Route::get('/user/{user_id}', [OrderController::class, 'getOrdersByUser']); // 
-    
+    Route::get('/user/{user_id}', [OrderController::class, 'getOrdersByUser']); //
+
 
 
 });
@@ -89,7 +91,23 @@ Route::prefix('auth')->group(function () {
 });
 
 
+
 Route::post('/zalopay/payment', [ZaloPayController::class, 'createPayment']);
+
+
+Route::post('/zalopay/payment', [ZaloPayController::class, 'createPayment']);
+
+
+
+
+
+
+// Route::prefix('comments')->group(function () {
+//     Route::get('/', [CommentController::class, 'index']);
+//     Route::post('/', [CommentController::class, 'store']);
+//     Route::get('/{id}', [CommentController::class, 'show']);
+//     Route::delete('/{id}', [CommentController::class, 'delete']);
+// });
 
 Route::prefix('comments')->group(function () {
     Route::get('/', [CommentController::class, 'index']);
@@ -99,15 +117,17 @@ Route::prefix('comments')->group(function () {
 });
 Route::get('/products/{id}/comments', [CommentController::class, 'getCommentsByProduct']);
 
+
 //promotions
 Route::prefix('promotions')->group(function () {
-    Route::get('/', [PromotionController::class, 'index']); 
+    Route::get('/', [PromotionController::class, 'index']);
     Route::get('/{id}', [PromotionController::class, 'show']);
 });
 
 //order_details
 Route::get('/orders/{id}/details', [OrderDetailController::class, 'show']);
 Route::post('/orders/{id}/details', [OrderDetailController::class, 'store']);
+
 
 
 // Wishlist
@@ -121,3 +141,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('/zalopay/create', [ZaloPayController::class, 'createOrder']);
 Route::post('/zalopay/callback', [ZaloPayController::class, 'callback'])->name('zalopay.callback');
+
+//wishlist
+
+
+
+
+Route::post('/reviews', [ReviewController::class, 'store']);
+Route::get('/products/{productId}/reviews', [ReviewController::class, 'getReviewsByProduct']);
+
+
