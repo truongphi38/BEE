@@ -254,9 +254,15 @@
                         </div>
                         <div class="col-12 col-md-12 col-xxl-6 d-flex order-1 order-xxl-3">
                             <div class="card flex-fill w-100">
-                                <div class="card-header">
+                                <div class="card-header d-flex justify-content-between align-items-center">
                                     <h5 class="card-title mb-0 text-primary">Top Sản Phẩm</h5>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-primary me-2" onclick="loadTopRatedProducts()">5★</button>
+                                        <button class="btn btn-sm btn-outline-danger me-2" onclick="sortBy('favorite')">Yêu Thích</button>
+                                        <button class="btn btn-sm btn-outline-success" onclick="sortBy('purchases')">Mua Nhiều</button>
+                                    </div>
                                 </div>
+                                
                                 <table id="myTable" class="table table-hover my-0">
                                     <thead>
                                         <tr>
@@ -268,7 +274,21 @@
                                         </tr>
                                     </thead>
                                     <tbody id="top-products-body">
+                                        @foreach($products as $product)
+                                            <tr>
+                                                <td>{{ $product->name }}</td>
+                                                <td class="d-none d-xl-table-cell">
+                                                    <img src="{{ $product->img }}" width="50">
+                                                </td>
+                                                <td>{{ $product->five_star_count }}</td> <!-- Hiển thị số đánh giá 5 sao -->
+                                                <td>{{ $product->total_purchased }}</td> <!-- Hiển thị số lượt mua -->
+                                                <td>{{ $product->wishlist_count }}</td> <!-- Hiển thị số lượt yêu thích -->
+                                            </tr>
+                                        @endforeach
                                     </tbody>
+                                    
+                                    
+                                    
                                 </table>
                             </div>
                         </div>
@@ -410,6 +430,31 @@
         });
     </script>
 
+
+    <script>
+        function loadTopRatedProducts() {
+    fetch('/api/top-rated-products')
+        .then(response => response.json())
+        .then(data => {
+            let tbody = document.getElementById('top-products-body');
+            tbody.innerHTML = ''; // Xóa dữ liệu cũ
+            data.forEach(product => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${product.name}</td>
+                        <td class="d-none d-xl-table-cell">
+                            <img src="${product.img}" width="50">
+                        </td>
+                        <td>${product.five_star_count}</td>
+                        <td>---</td> <!-- Để trống vì đang chỉ hiển thị 5 sao -->
+                        <td class="d-none d-md-table-cell">---</td>
+                    </tr>
+                `;
+            });
+        });
+}
+
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

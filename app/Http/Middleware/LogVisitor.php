@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use App\Models\Visitor;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class LogVisitor {
     public function handle(Request $request, Closure $next) {
@@ -18,12 +19,17 @@ class LogVisitor {
             return $next($request);
         }
     
-        if (!Visitor::where('ip_address', $ip)->whereDate('visited_at', $today)->exists()) {
-            Visitor::create([
-                'ip_address' => $ip,
-                'visited_at' => now(),
-            ]);
-        }
+        $visitor = Visitor::firstOrNew(
+            ['ip_address' => $ip, 'visited_at' => $today]
+        );
+        
+        $visitor->updated_at = now();
+        $visitor->visit_count = ($visitor->exists ? $visitor->visit_count + 1 : 1);
+        $visitor->save();
+        
+        
+        
+        
         
         return $next($request);
     }

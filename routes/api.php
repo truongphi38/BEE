@@ -76,6 +76,9 @@ Route::prefix('orders')->group(function () {
     Route::get('/admin/orders-by-month', [OrderController::class, 'getOrdersByMonth'])->name('admin.orders.byMonth');
     Route::get('/admin/reviews-summary', [HomeController::class, 'getReviewsSummary'])->name('admin.reviewsSummary');
     Route::get('/admin/top-products', [HomeController::class, 'getTopProducts'])->name('admin.topProducts');
+    
+    Route::get('/top-rated-products', [HomeController::class, 'getTopRatedProducts']);
+
 
 
 
