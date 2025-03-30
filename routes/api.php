@@ -30,12 +30,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Route nhóm cho Products
 Route::prefix('products')->group(function () {
-    Route::get('/', [ProductController::class, 'getProducts']);  // Lấy danh sách sản phẩm
-    Route::post('/', [ProductController::class, 'store']);       // Thêm sản phẩm mới
-    Route::get('/{id}', [ProductController::class, 'getProductById']);  // Lấy sản phẩm theo ID
-    Route::put('/{id}', [ProductController::class, 'update']);   // Cập nhật sản phẩm
-    Route::delete('/{id}', [ProductController::class, 'delete']); // Xóa sản phẩm
+    Route::get('/', [ProductController::class, 'getProducts']);
+    Route::get('/{id}', [ProductController::class, 'getProductById']);
+    Route::post('/', [ProductController::class, 'store']);
+    Route::put('/{id}', [ProductController::class, 'update']);
+    Route::delete('/{id}', [ProductController::class, 'delete']);
 });
+Route::get('/products/search/{query}', [ProductController::class, 'search']);
+
+
+
 
 // Route nhóm cho Categories
 Route::prefix('categories')->group(function () {
@@ -114,7 +118,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/wishlist/check', [WishlistController::class, 'checkWishlist']); // Kiểm tra sản phẩm có trong wishlist không
     Route::post('/wishlist/sync', [WishlistController::class, 'syncWishlist']); // Đồng bộ wishlist khi đăng nhập
 });
-
 
 Route::post('/zalopay/create', [ZaloPayController::class, 'createOrder']);
 Route::post('/zalopay/callback', [ZaloPayController::class, 'callback'])->name('zalopay.callback');
