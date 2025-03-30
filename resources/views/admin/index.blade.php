@@ -23,45 +23,48 @@
                                                     <div class="col mt-0">
                                                         <h5 class="card-title text-primary">Tổng Người Dùng</h5>
                                                     </div>
-                                        
+
                                                     <div class="col-auto">
                                                         <div class="stat text-primary">
                                                             <i class="align-middle" data-feather="users"></i>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <!-- Tổng số người dùng -->
                                                 <h1 class="mt-1 mb-3">{{ number_format($totalUsers) }}</h1>
-                                        
+
                                                 <!-- Hiển thị phần trăm tăng trưởng -->
                                                 <div class="mb-0">
                                                     @if ($growthPercentage >= 0)
                                                         <span class="text-success">
-                                                            <i class="mdi mdi-arrow-top-right"></i> +{{ number_format($growthPercentage, 2) }}%
+                                                            <i class="mdi mdi-arrow-top-right"></i>
+                                                            +{{ number_format($growthPercentage, 2) }}%
                                                         </span>
                                                     @else
                                                         <span class="text-danger">
-                                                            <i class="mdi mdi-arrow-bottom-right"></i> {{ number_format($growthPercentage, 2) }}%
+                                                            <i class="mdi mdi-arrow-bottom-right"></i>
+                                                            {{ number_format($growthPercentage, 2) }}%
                                                         </span>
                                                     @endif
                                                     <span class="text-muted">So với tuần trước</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        
-                                        
+
+
+
+
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col mt-0">
                                                         <h5 class="card-title text-primary">Lượt Truy Cập</h5>
                                                     </div>
-                                        
+
                                                     <div class="col-auto">
                                                         <div class="stat text-primary">
-                                                            <i class="align-middle" data-feather="users"></i>
+                                                            <i class="align-middle" data-feather="corner-up-right"></i>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -69,20 +72,45 @@
                                                 <div class="mb-0">
                                                     <span class="text-success">
                                                         <i class="mdi mdi-arrow-top-right"></i>
-                                                        {{ number_format($todayVisitors) }}  hôm nay
+                                                        {{ number_format($todayVisitors) }} hôm nay
                                                     </span>
                                                     <span class="text-muted">Tổng số lượt truy cập</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col mt-0">
+                                                        <h5 class="card-title text-primary">Tổng Sản Phẩm</h5>
+                                                    </div>
+
+                                                    <div class="col-auto">
+                                                        <div class="stat text-primary">
+                                                            <i class="align-middle" data-feather="package"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <h1 class="mt-1 mb-3">{{ number_format($totalProducts) }} Sản Phẩm</h1>
+                                                <span class="text-muted">Trong <span class="text-success fw-bolder">
+                                                        {{ $totalCategory }} </span> danh mục và <span
+                                                        class="text-success fw-bolder"> {{ $totalType }}</span> loại
+                                                </span>
+
+
+                                            </div>
+                                        </div>
+
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col mt-0">
-                                                        <h5 class="card-title">Earnings</h5>
+                                                        <h5 class="card-title text-primary">Doanh Thu</h5>
                                                     </div>
 
                                                     <div class="col-auto">
@@ -91,19 +119,24 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <h1 class="mt-1 mb-3">$21.300</h1>
+                                                <h1 class="mt-1 mb-3">{{ number_format($totalEarningsThisWeek) }} VNĐ</h1>
                                                 <div class="mb-0">
-                                                    <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i>
-                                                        6.65% </span>
-                                                    <span class="text-muted">Since last week</span>
+                                                    <span
+                                                        class="{{ $percentageChange >= 0 ? 'text-success' : 'text-danger' }}">
+                                                        <i
+                                                            class="mdi {{ $percentageChange >= 0 ? 'mdi-arrow-up-right' : 'mdi-arrow-down-right' }}"></i>
+                                                        {{ number_format($percentageChange, 2) }}%
+                                                    </span>
+                                                    <span class="text-muted">So với tuần trước</span>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col mt-0">
-                                                        <h5 class="card-title">Orders</h5>
+                                                        <h5 class="card-title text-primary">Đơn Hàng</h5>
                                                     </div>
 
                                                     <div class="col-auto">
@@ -112,11 +145,41 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <h1 class="mt-1 mb-3">64</h1>
+                                                <h1 class="mt-1 mb-3">{{ $completedOrders }}</h1>
                                                 <div class="mb-0">
-                                                    <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i>
-                                                        -2.25% </span>
-                                                    <span class="text-muted">Since last week</span>
+                                                    @if ($changePercentage >= 0)
+                                                        <span class="text-success">
+                                                            <i class="mdi mdi-arrow-up-bold"></i>
+                                                            +{{ number_format($changePercentage, 2) }}%
+                                                        </span>
+                                                    @else
+                                                        <span class="text-danger">
+                                                            <i class="mdi mdi-arrow-down-bold"></i>
+                                                            {{ number_format($changePercentage, 2) }}%
+                                                        </span>
+                                                    @endif
+                                                    <span class="text-muted">So với tuần trước</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col mt-0">
+                                                        <h5 class="card-title text-primary">Đánh Giá</h5>
+                                                    </div>
+
+                                                    <div class="col-auto">
+                                                        <div class="stat text-primary">
+                                                            <i class="align-middle" data-feather="star"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <h1 class="mt-1 mb-3" id="total-reviews"></h1>
+                                                <div class="mb-0">
+                                                    <div id="reviews-details"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -127,357 +190,281 @@
 
                         <div class="col-xl-6 col-xxl-7">
                             <div class="card flex-fill w-100">
-                                <div class="card-header">
-
-                                    <h5 class="card-title mb-0">Recent Movement</h5>
+                                <div class="card-header d-flex align-items-center">
+                                    <h5 class="text-primary card-title mb-0">Thống Kê Doanh Thu 7 Ngày Gần Nhất</h5>
                                 </div>
                                 <div class="card-body py-3">
                                     <div class="chart chart-sm">
-                                        <canvas id="chartjs-dashboard-line"></canvas>
+                                        <canvas id="chartjs-dashboard-line-bao"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row">
-                        <div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3">
+                        <div class="col-12 col-md-6 col-xxl-3 d-flex order-3 order-xxl-1">
                             <div class="card flex-fill w-100">
                                 <div class="card-header">
 
-                                    <h5 class="card-title mb-0">Browser Usage</h5>
+                                    <h5 class="text-primary card-title mb-0">Trạng Thái Đơn Hàng</h5>
                                 </div>
                                 <div class="card-body d-flex">
                                     <div class="align-self-center w-100">
                                         <div class="py-3">
                                             <div class="chart chart-xs">
-                                                <canvas id="chartjs-dashboard-pie"></canvas>
+                                                <canvas id="chartjs-dashboard-pie-bao"></canvas>
                                             </div>
                                         </div>
 
                                         <table class="table mb-0">
                                             <tbody>
                                                 <tr>
-                                                    <td>Chrome</td>
-                                                    <td class="text-end">4306</td>
+                                                    <td>Đã hoàn thành</td>
+                                                    <td class="text-end" id="completed-orders">0</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Firefox</td>
-                                                    <td class="text-end">3801</td>
+                                                    <td>Đang giao</td>
+                                                    <td class="text-end" id="shipping-orders">0</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>IE</td>
-                                                    <td class="text-end">1689</td>
+                                                    <td>Huỷ đơn</td>
+                                                    <td class="text-end" id="canceled-orders">0</td>
                                                 </tr>
                                             </tbody>
                                         </table>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-12 col-xxl-6 d-flex order-3 order-xxl-2">
+                        <div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-2">
+                            <div class="card flex-fill">
+                                <div class="card-header">
+
+                                    <h5 class="text-primary card-title mb-0">Số Lượng Đơn Hàng Theo Tháng</h5>
+                                </div>
+                                <div class="card-body d-flex w-100">
+                                    <div class="align-self-center chart chart-lg">
+                                        <canvas id="chartjs-dashboard-bar-bao"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-12 col-xxl-6 d-flex order-1 order-xxl-3">
                             <div class="card flex-fill w-100">
                                 <div class="card-header">
-
-                                    <h5 class="card-title mb-0">Real-Time</h5>
+                                    <h5 class="card-title mb-0 text-primary">Top Sản Phẩm</h5>
                                 </div>
-                                <div class="card-body px-4">
-                                    <div id="world_map" style="height:350px;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1">
-                            <div class="card flex-fill">
-                                <div class="card-header">
-
-                                    <h5 class="card-title mb-0">Calendar</h5>
-                                </div>
-                                <div class="card-body d-flex">
-                                    <div class="align-self-center w-100">
-                                        <div class="chart">
-                                            <div id="datetimepicker-dashboard"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12 col-lg-8 col-xxl-9 d-flex">
-                            <div class="card flex-fill">
-                                <div class="card-header">
-
-                                    <h5 class="card-title mb-0">Latest Projects</h5>
-                                </div>
-                                <table class="table table-hover my-0">
+                                <table id="myTable" class="table table-hover my-0">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th class="d-none d-xl-table-cell">Start Date</th>
-                                            <th class="d-none d-xl-table-cell">End Date</th>
-                                            <th>Status</th>
-                                            <th class="d-none d-md-table-cell">Assignee</th>
+                                            <th>Tên</th>
+                                            <th class="d-none d-xl-table-cell">Hình Ảnh</th>
+                                            <th class="d-none d-xl-table-cell">5★</th>
+                                            <th>Lượt Mua</th>
+                                            <th class="d-none d-md-table-cell">Yêu Thích</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Project Apollo</td>
-                                            <td class="d-none d-xl-table-cell">01/01/2023</td>
-                                            <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                            <td><span class="badge bg-success">Done</span></td>
-                                            <td class="d-none d-md-table-cell">Vanessa Tucker</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Project Fireball</td>
-                                            <td class="d-none d-xl-table-cell">01/01/2023</td>
-                                            <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                            <td><span class="badge bg-danger">Cancelled</span></td>
-                                            <td class="d-none d-md-table-cell">William Harris</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Project Hades</td>
-                                            <td class="d-none d-xl-table-cell">01/01/2023</td>
-                                            <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                            <td><span class="badge bg-success">Done</span></td>
-                                            <td class="d-none d-md-table-cell">Sharon Lessman</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Project Nitro</td>
-                                            <td class="d-none d-xl-table-cell">01/01/2023</td>
-                                            <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                            <td><span class="badge bg-warning">In progress</span></td>
-                                            <td class="d-none d-md-table-cell">Vanessa Tucker</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Project Phoenix</td>
-                                            <td class="d-none d-xl-table-cell">01/01/2023</td>
-                                            <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                            <td><span class="badge bg-success">Done</span></td>
-                                            <td class="d-none d-md-table-cell">William Harris</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Project X</td>
-                                            <td class="d-none d-xl-table-cell">01/01/2023</td>
-                                            <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                            <td><span class="badge bg-success">Done</span></td>
-                                            <td class="d-none d-md-table-cell">Sharon Lessman</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Project Romeo</td>
-                                            <td class="d-none d-xl-table-cell">01/01/2023</td>
-                                            <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                            <td><span class="badge bg-success">Done</span></td>
-                                            <td class="d-none d-md-table-cell">Christina Mason</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Project Wombat</td>
-                                            <td class="d-none d-xl-table-cell">01/01/2023</td>
-                                            <td class="d-none d-xl-table-cell">31/06/2023</td>
-                                            <td><span class="badge bg-warning">In progress</span></td>
-                                            <td class="d-none d-md-table-cell">William Harris</td>
-                                        </tr>
+                                    <tbody id="top-products-body">
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-4 col-xxl-3 d-flex">
-                            <div class="card flex-fill w-100">
-                                <div class="card-header">
-
-                                    <h5 class="card-title mb-0">Monthly Sales</h5>
-                                </div>
-                                <div class="card-body d-flex w-100">
-                                    <div class="align-self-center chart chart-lg">
-                                        <canvas id="chartjs-dashboard-bar"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+
+
 
                 </div>
             </main>
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row text-muted">
-                        <div class="col-6 text-start">
-                            <p class="mb-0">
-                                <a class="text-muted" href="https://adminkit.io/"
-                                    target="_blank"><strong>AdminKit</strong></a> - <a class="text-muted"
-                                    href="https://adminkit.io/" target="_blank"><strong>Bootstrap Admin
-                                        Template</strong></a> &copy;
-                            </p>
-                        </div>
-                        <div class="col-6 text-end">
-                            <ul class="list-inline">
-                                <li class="list-inline-item">
-                                    <a class="text-muted" href="https://adminkit.io/" target="_blank">Support</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a class="text-muted" href="https://adminkit.io/" target="_blank">Help Center</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a class="text-muted" href="https://adminkit.io/" target="_blank">Privacy</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a class="text-muted" href="https://adminkit.io/" target="_blank">Terms</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+
         </div>
     </div>
 
     <script src="js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        let revenueChart;
+
+        function fetchRevenueData(type) {
+            fetch(`/api/revenue?type=${type}`)
+                .then(response => response.json())
+                .then(data => {
+                    updateChart(data);
+                })
+                .catch(error => console.error("Lỗi lấy dữ liệu:", error));
+        }
+
+        function updateChart(data) {
+            const labels = data.map(item => item.date);
+            const revenues = data.map(item => item.revenue);
+
+            if (revenueChart) {
+                revenueChart.destroy(); // Xóa biểu đồ cũ
+            }
+
+            const ctx = document.getElementById("chartjs-dashboard-line-bao").getContext("2d");
+            revenueChart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Doanh thu",
+                        data: revenues,
+                        borderColor: "#007bff",
+                        backgroundColor: "rgba(0, 123, 255, 0.1)",
+                        fill: true
+                    }]
+                }
+            });
+        }
+
+        document.querySelectorAll("#time-filter button").forEach(button => {
+            button.addEventListener("click", function() {
+                document.querySelectorAll("#time-filter button").forEach(btn => {
+                    btn.classList.remove("btn-primary");
+                    btn.classList.add("btn-secondary");
+                });
+
+                this.classList.remove("btn-secondary");
+                this.classList.add("btn-primary");
+
+                fetchRevenueData(this.dataset.type);
+            });
+        });
+
+        // Gọi API mặc định khi tải trang (lấy doanh thu theo ngày)
+        fetchRevenueData("day");
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
-            var gradient = ctx.createLinearGradient(0, 0, 0, 225);
-            gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
-            gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
-            // Line chart
-            new Chart(document.getElementById("chartjs-dashboard-line"), {
-                type: "line",
-                data: {
-                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
-                        "Dec"
-                    ],
-                    datasets: [{
-                        label: "Sales ($)",
-                        fill: true,
-                        backgroundColor: gradient,
-                        borderColor: window.theme.primary,
-                        data: [
-                            2115,
-                            1562,
-                            1584,
-                            1892,
-                            1587,
-                            1923,
-                            2566,
-                            2448,
-                            2805,
-                            3438,
-                            2917,
-                            3327
-                        ]
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false
-                    },
-                    tooltips: {
-                        intersect: false
-                    },
-                    hover: {
-                        intersect: true
-                    },
-                    plugins: {
-                        filler: {
-                            propagate: false
+            fetch('/api/revenue/last7days')
+                .then(response => response.json())
+                .then(data => {
+                    const labels = data.map(item => item.date);
+                    const revenues = data.map(item => item.revenue);
+
+                    new Chart(document.getElementById("chartjs-dashboard-line-bao"), {
+                        type: "line",
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: "Doanh thu (VND)",
+                                data: revenues,
+                                borderColor: "#007bff",
+                                backgroundColor: "rgba(0, 123, 255, 0.1)",
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                x: {
+                                    display: true
+                                },
+                                y: {
+                                    display: true
+                                }
+                            }
                         }
-                    },
-                    scales: {
-                        xAxes: [{
-                            reverse: true,
-                            gridLines: {
-                                color: "rgba(0,0,0,0.0)"
-                            }
-                        }],
-                        yAxes: [{
-                            ticks: {
-                                stepSize: 1000
-                            },
-                            display: true,
-                            borderDash: [3, 3],
-                            gridLines: {
-                                color: "rgba(0,0,0,0.0)"
-                            }
-                        }]
-                    }
-                }
-            });
+                    });
+                })
+                .catch(error => console.error("Lỗi khi lấy dữ liệu:", error));
         });
     </script>
+
+
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Pie chart
-            new Chart(document.getElementById("chartjs-dashboard-pie"), {
-                type: "pie",
-                data: {
-                    labels: ["Chrome", "Firefox", "IE"],
-                    datasets: [{
-                        data: [4306, 3801, 1689],
-                        backgroundColor: [
-                            window.theme.primary,
-                            window.theme.warning,
-                            window.theme.danger
-                        ],
-                        borderWidth: 5
-                    }]
-                },
-                options: {
-                    responsive: !window.MSInputMethodContext,
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false
-                    },
-                    cutoutPercentage: 75
-                }
-            });
+            fetch("{{ route('admin.order.stats') }}") // Route backend trả về JSON thống kê
+                .then(response => response.json())
+                .then(data => {
+                    const ctx = document.getElementById("chartjs-dashboard-pie-bao").getContext("2d");
+                    new Chart(ctx, {
+                        type: "pie",
+                        data: {
+                            labels: ["Đã hoàn thành", "Đang giao", "Huỷ đơn"],
+                            datasets: [{
+                                data: [data.completed, data.shipping, data.canceled],
+                                backgroundColor: ["#28a745", "#ffc107", "#dc3545"],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+
+                    // Cập nhật số liệu trong bảng
+                    document.getElementById("completed-orders").innerText = data.completed;
+                    document.getElementById("shipping-orders").innerText = data.shipping;
+                    document.getElementById("canceled-orders").innerText = data.canceled;
+                })
+                .catch(error => console.error("Error fetching order stats:", error));
         });
     </script>
+
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Bar chart
-            new Chart(document.getElementById("chartjs-dashboard-bar"), {
-                type: "bar",
-                data: {
-                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
-                        "Dec"
-                    ],
-                    datasets: [{
-                        label: "This year",
-                        backgroundColor: window.theme.primary,
-                        borderColor: window.theme.primary,
-                        hoverBackgroundColor: window.theme.primary,
-                        hoverBorderColor: window.theme.primary,
-                        data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
-                        barPercentage: .75,
-                        categoryPercentage: .5
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false
-                    },
-                    scales: {
-                        yAxes: [{
-                            gridLines: {
-                                display: false
-                            },
-                            stacked: false,
-                            ticks: {
-                                stepSize: 20
-                            }
-                        }],
-                        xAxes: [{
-                            stacked: false,
-                            gridLines: {
-                                color: "transparent"
-                            }
-                        }]
+            fetch("{{ route('admin.reviewsSummary') }}")
+                .then(response => response.json())
+                .then(data => {
+                    let totalReviews = Object.values(data).reduce((sum, num) => sum + num, 0);
+                    document.getElementById("total-reviews").innerText = totalReviews.toLocaleString();
+
+                    let reviewsDetails = "";
+                    for (let rating = 5; rating >= 1; rating--) {
+                        reviewsDetails += `<div>
+                        <span class="text-warning">${"★".repeat(rating)}</span>
+                        <span class="text-muted"> ${data[rating]} đánh giá</span>
+                    </div>`;
                     }
-                }
-            });
+
+                    document.getElementById("reviews-details").innerHTML = reviewsDetails;
+                })
+                .catch(error => console.error("Error fetching review summary:", error));
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch("{{ route('admin.orders.byMonth') }}")
+                .then(response => response.json())
+                .then(data => {
+                    const ctx = document.getElementById("chartjs-dashboard-bar-bao").getContext("2d");
+                    new Chart(ctx, {
+                        type: "bar",
+                        data: {
+                            labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
+                                "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
+                            ],
+                            datasets: [{
+                                label: "Số đơn hàng",
+                                data: Object.values(data),
+                                backgroundColor: "#007bff",
+                                borderColor: "#0056b3",
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error("Error fetching order stats:", error));
         });
     </script>
     <script>
@@ -556,6 +543,21 @@
                 prevArrow: "<span title=\"Previous month\">&laquo;</span>",
                 nextArrow: "<span title=\"Next month\">&raquo;</span>",
                 defaultDate: defaultDate
+            });
+        });
+    </script>
+    <script>
+        document.querySelectorAll("#time-filter button").forEach(button => {
+            button.addEventListener("click", function() {
+                document.querySelectorAll("#time-filter button").forEach(btn => {
+                    btn.classList.remove("btn-primary");
+                    btn.classList.add("btn-secondary");
+                });
+                this.classList.remove("btn-secondary");
+                this.classList.add("btn-primary");
+
+                // Xử lý cập nhật biểu đồ tại đây (nếu cần)
+                console.log("Đã chọn:", this.dataset.type);
             });
         });
     </script>

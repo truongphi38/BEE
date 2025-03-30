@@ -17,12 +17,39 @@ class OrderController extends Controller
 {
     // Lấy danh sách đơn hàng
     public function index(): JsonResponse
-{
-    $orders = Order::with('status')->get(); // Load quan hệ status
+    {
+        $orders = Order::with('status')->get(); // Load quan hệ status
 
-    // Chuyển đổi dữ liệu trước khi trả về
-    $orders = $orders->map(function ($order) {
-        return [
+        // Chuyển đổi dữ liệu trước khi trả về
+        $orders = $orders->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'user_id' => $order->user_id,
+                'total_amount' => $order->total_amount,
+                //'status_id' => $order->status_id,
+                'status_name' => $order->status->name ?? null, // Lấy tên status
+                'subtotal' => $order->subtotal,
+                'promotion_id' => $order->promotion_id,
+                'created_at' => $order->created_at,
+                'updated_at' => $order->updated_at
+            ];
+        });
+
+        return response()->json($orders, 200, [], JSON_PRETTY_PRINT);
+    }
+
+
+    // Lấy thông tin đơn hàng theo ID
+    public function show($id): JsonResponse
+    {
+        $order = Order::with('status')->find($id); // Load quan hệ status
+
+        if (!$order) {
+            return response()->json(['message' => 'Đơn hàng không tồn tại'], 404);
+        }
+
+        // Chuẩn hóa dữ liệu trả về
+        $orderData = [
             'id' => $order->id,
             'user_id' => $order->user_id,
             'total_amount' => $order->total_amount,
@@ -33,64 +60,37 @@ class OrderController extends Controller
             'created_at' => $order->created_at,
             'updated_at' => $order->updated_at
         ];
-    });
 
-    return response()->json($orders, 200, [], JSON_PRETTY_PRINT);
-}
-
-
-    // Lấy thông tin đơn hàng theo ID
-    public function show($id): JsonResponse
-{
-    $order = Order::with('status')->find($id); // Load quan hệ status
-
-    if (!$order) {
-        return response()->json(['message' => 'Đơn hàng không tồn tại'], 404);
+        return response()->json($orderData, 200, [], JSON_PRETTY_PRINT);
     }
-
-    // Chuẩn hóa dữ liệu trả về
-    $orderData = [
-        'id' => $order->id,
-        'user_id' => $order->user_id,
-        'total_amount' => $order->total_amount,
-        //'status_id' => $order->status_id,
-        'status_name' => $order->status->name ?? null, // Lấy tên status
-        'subtotal' => $order->subtotal,
-        'promotion_id' => $order->promotion_id,
-        'created_at' => $order->created_at,
-        'updated_at' => $order->updated_at
-    ];
-
-    return response()->json($orderData, 200, [], JSON_PRETTY_PRINT);
-}
 
 
     // Lấy danh sách đơn hàng theo user_id
     public function getOrdersByUser($user_id): JsonResponse
-{
-    $orders = Order::with('status')->where('user_id', $user_id)->get(); // Load quan hệ status
+    {
+        $orders = Order::with('status')->where('user_id', $user_id)->get(); // Load quan hệ status
 
-    if ($orders->isEmpty()) {
-        return response()->json(['message' => 'Không có đơn hàng nào cho user này'], 404);
+        if ($orders->isEmpty()) {
+            return response()->json(['message' => 'Không có đơn hàng nào cho user này'], 404);
+        }
+
+        // Chuẩn hóa dữ liệu trả về
+        $orderData = $orders->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'user_id' => $order->user_id,
+                'total_amount' => $order->total_amount,
+                'status_id' => $order->status_id,
+                'status_name' => $order->status->name ?? null, // Lấy tên status
+                'subtotal' => $order->subtotal,
+                'promotion_id' => $order->promotion_id,
+                'created_at' => $order->created_at,
+                'updated_at' => $order->updated_at
+            ];
+        });
+
+        return response()->json($orderData, 200, [], JSON_PRETTY_PRINT);
     }
-
-    // Chuẩn hóa dữ liệu trả về
-    $orderData = $orders->map(function ($order) {
-        return [
-            'id' => $order->id,
-            'user_id' => $order->user_id,
-            'total_amount' => $order->total_amount,
-            'status_id' => $order->status_id,
-            'status_name' => $order->status->name ?? null, // Lấy tên status
-            'subtotal' => $order->subtotal,
-            'promotion_id' => $order->promotion_id,
-            'created_at' => $order->created_at,
-            'updated_at' => $order->updated_at
-        ];
-    });
-
-    return response()->json($orderData, 200, [], JSON_PRETTY_PRINT);
-}
 
 
 
@@ -230,5 +230,33 @@ class OrderController extends Controller
         $order->delete();
 
         return response()->json(['message' => 'Xóa đơn hàng thành công!'], 200);
+    }
+
+    //Lấy dữ liệu show trang thống kê
+    public function getOrderStats(): JsonResponse
+    {
+        $stats = [
+            'completed' => Order::where('status_id', 5)->count(),
+            'shipping'  => Order::where('status_id', 6)->count() ?? 0,
+            'canceled'  => Order::where('status_id', 7)->count(),
+        ];
+        return response()->json($stats);
+    }
+
+    //Lấy dữ liệu show trang thống kê đơn hàng theo tháng
+    public function getOrdersByMonth(): JsonResponse
+    {
+        $orders = Order::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        $stats = array_fill(1, 12, 0); // Mảng 12 tháng, mặc định là 0
+
+        foreach ($orders as $order) {
+            $stats[$order->month] = $order->total;
+        }
+
+        return response()->json($stats);
     }
 }

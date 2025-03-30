@@ -14,6 +14,8 @@ use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\Api\OrderDetailController;
 use App\Http\Controllers\ZaloPayController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RevenueController;
 
 
 /*
@@ -69,6 +71,12 @@ Route::prefix('orders')->group(function () {
     Route::delete('/{id}', [OrderController::class, 'destroy']); // Xóa đơn hàng
 
     Route::get('/user/{user_id}', [OrderController::class, 'getOrdersByUser']); //
+    //trang thống kê
+    Route::get('/admin/order-stats', [OrderController::class, 'getOrderStats'])->name('admin.order.stats');
+    Route::get('/admin/orders-by-month', [OrderController::class, 'getOrdersByMonth'])->name('admin.orders.byMonth');
+    Route::get('/admin/reviews-summary', [HomeController::class, 'getReviewsSummary'])->name('admin.reviewsSummary');
+    Route::get('/admin/top-products', [HomeController::class, 'getTopProducts'])->name('admin.topProducts');
+
 
 
 
@@ -95,7 +103,7 @@ Route::prefix('auth')->group(function () {
 Route::post('/zalopay/payment', [ZaloPayController::class, 'createPayment']);
 
 
-Route::post('/zalopay/payment', [ZaloPayController::class, 'createPayment']);
+
 
 
 
@@ -151,3 +159,5 @@ Route::post('/reviews', [ReviewController::class, 'store']);
 Route::get('/products/{productId}/reviews', [ReviewController::class, 'getReviewsByProduct']);
 
 
+Route::get('/revenue', [RevenueController::class, 'getRevenue']);
+Route::get('/revenue/last7days', [RevenueController::class, 'getRevenueLast7Days']);
