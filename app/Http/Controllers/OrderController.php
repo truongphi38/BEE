@@ -162,7 +162,19 @@ class OrderController extends Controller
         'updated_at' => now() // Cập nhật thời gian hiện tại
     ]);
 
+    if ($newStatus == 5) {
+        $this->updateProductPurchaseCount($order);  // Gọi hàm để cập nhật số lượt mua
+    }
+
     return redirect()->back()->with('success', 'Đơn hàng đã được cập nhật!');
 }
 
+
+public function updateProductPurchaseCount($order)
+{
+    foreach ($order->orderDetails as $detail) {
+        $product = $detail->productVariants->product;
+        $product->increment('purchase_count', $detail->quantity);
+    }
+}
 }
