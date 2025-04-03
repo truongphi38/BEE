@@ -85,6 +85,7 @@ Route::prefix('auth')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user', [AuthController::class, 'user']);
         Route::post('/logout', [AuthController::class, 'logout']);
+        
     });
 });
 
@@ -121,3 +122,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('/zalopay/create', [ZaloPayController::class, 'createOrder']);
 Route::post('/zalopay/callback', [ZaloPayController::class, 'callback'])->name('zalopay.callback');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/auth/update-password', [AuthController::class, 'updatePassword']);
+});
