@@ -51,14 +51,27 @@
                                             Hoàn Thành
                                         </button>
                                     </form>
-                                    <form action="{{ route('orders.delete', $order->id) }}" method="POST"
+                                    <form id="cancelForm-{{ $order->id }}"
+                                        action="{{ route('orders.delete', $order->id) }}" method="POST"
                                         style="display: inline-block;">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')">
+
+                                        <!-- Nút nhấn để mở input nhập lý do -->
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="showCancelReason({{ $order->id }})">
                                             Hủy đơn hàng
                                         </button>
+
+                                        <!-- Ô nhập lý do (Ẩn mặc định) -->
+                                        <div id="reasonBox-{{ $order->id }}" style="display: none; margin-top: 10px;">
+                                            <textarea name="cancel_reason" id="cancel_reason-{{ $order->id }}" rows="3"
+                                                placeholder="Nhập lý do hủy đơn..." required></textarea>
+                                            <br>
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                Xác nhận hủy
+                                            </button>
+                                        </div>
                                     </form>
                                 @endif
                             </td>
@@ -68,4 +81,9 @@
             </table>
         </div>
     </main>
+    <script>
+        function showCancelReason(orderId) {
+            document.getElementById('reasonBox-' + orderId).style.display = 'block';
+        }
+    </script>
 @endsection
