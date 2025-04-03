@@ -10,12 +10,11 @@
                         <th>ID</th>
                         <th>Ngày cập nhật</th>
                         <th>Trạng thái</th>
-                        <th>Tổng tiền sản phẩm</th>
-                        <th>Voucher</th>
-                        <th>Mô tả</th>
+                        
+                        
                         <th>Tổng tiền</th>
                         <th>Hình thức thanh toán</th>
-                        <th>Hành động</th>
+                        <th>Lý do</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,7 +22,7 @@
                         <tr>
                             <td>DH{{ $order->id }}</td>
                             <td>{{ $order->updated_at->format('d/m/Y H:i') }}</td>
-                            <td><span class="badge bg-info">{{ $order->status->name }}</span></td>
+                            <td><span class="badge bg-danger">{{ $order->status->name }}</span></td>
                             {{-- <td>
                                 @if ($order->status_id == 1)
                                     <span class="badge bg-warning">Chờ xác nhận</span>
@@ -33,16 +32,16 @@
                                     <span class="badge bg-danger">Đã hủy</span>
                                 @endif
                             </td> --}}
-                            <td>{{ number_format($order->subtotal, 0, ',', '.') }} đ</td>
-                            <td>{{ $order->promotion->code }} </td>
-                            <td>{{ $order->promotion->description }} </td>
+                            
+                            
                             <td>{{ number_format($order->total_amount, 0, ',', '.') }} đ</td>
                             <td>{{ $order->payment_method }} </td>
-                            <td>
+                            <td>{{ $order->cancel_reason }} </td>
+                            {{-- <td>
                                 <a href="{{ route('orders.show', $order->id) }}" class="btn btn-primary btn-sm">Chi tiết</a>
                                 @if ($order->status_id == 3 || 4)
                                     <!-- Chỉ hiển thị khi đơn hàng đang Chờ xác nhận -->
-                                    <form action="{{ route('orders.update', $order->id) }}" method="POST"
+                                    <form action="{{ route('orders.confirm', $order->id) }}" method="POST"
                                         style="display: inline-block;">
                                         @csrf
                                         @method('PUT')
@@ -51,17 +50,8 @@
                                             Tiến Hành Giao Hàng
                                         </button>
                                     </form>
-                                    <form action="{{ route('orders.delete', $order->id) }}" method="POST"
-                                        style="display: inline-block;">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')">
-                                            Hủy đơn hàng
-                                        </button>
-                                    </form>
                                 @endif
-                            </td>
+                            </td> --}}
                         </tr>
                     @endforeach
                 </tbody>

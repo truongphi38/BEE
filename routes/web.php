@@ -46,9 +46,11 @@ Route::get('/admin2/comments', [CommentController::class, 'index'])->name('comme
 // orders
 Route::get('/admin2/orders/pending', [OrderController::class, 'pending'])->name('orders.pending');
 Route::get('/admin2/orders/confirmed', [OrderController::class, 'confirmed'])->name('orders.confirmed');
+Route::get('/admin2/orders/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
 Route::get('/admin2/orders/shipping', [OrderController::class, 'shipping'])->name('orders.shipping');
 Route::get('/admin2/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-Route::put('/admin2/orders/{id}/confirm', [OrderController::class, 'confirmOrder'])->name('orders.confirm');
+Route::put('/admin2/orders/{id}/update', [OrderController::class, 'updateOrder'])->name('orders.update');
+Route::patch('/admin2/orders/{id}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.delete');
 
 
 

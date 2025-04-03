@@ -42,13 +42,22 @@
                                 <a href="{{ route('orders.show', $order->id) }}" class="btn btn-primary btn-sm">Chi tiết</a>
                                 @if ($order->status_id == 6)
                                     <!-- Chỉ hiển thị khi đơn hàng đang Chờ xác nhận -->
-                                    <form action="{{ route('orders.confirm', $order->id) }}" method="POST"
+                                    <form action="{{ route('orders.update', $order->id) }}" method="POST"
                                         style="display: inline-block;">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit" class="btn btn-success btn-sm"
                                             onclick="return confirm('Bạn có chắc chắn muốn xác nhận đơn hàng này?')">
                                             Hoàn Thành
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('orders.delete', $order->id) }}" method="POST"
+                                        style="display: inline-block;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')">
+                                            Hủy đơn hàng
                                         </button>
                                     </form>
                                 @endif
