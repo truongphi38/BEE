@@ -8,6 +8,12 @@
             <li class="sidebar-header">
                 Mục Lục
             </li>
+            <li class="sidebar-item {{ Request::routeIs('dashboard.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('dashboard.index') }}">
+                    <i class="align-middle" data-feather="home"></i>
+                    <span class="align-middle">Trang Chủ</span>
+                </a>
+            </li>
 
             <li class="sidebar-item {{ Request::routeIs('products.index') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('products.index') }}">
@@ -47,21 +53,33 @@
                 </a>
                 <ul id="ordersMenu" class="collapse list-unstyled">
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('orders.index2') }}">
-                            <i class="align-middle" data-feather="clock"></i>
+                        <a class="sidebar-link" href="{{ route('orders.pending') }}">
+                            <i class="align-middle fa-solid fa-clock"></i>
                             <span class="ms-3 align-middle">Chờ Xác Nhận</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('orders.index3') }}">
-                            <i class="align-middle" data-feather="check-circle"></i>
-                            <span class="ms-3 align-middle">Đã Giao Hàng</span>
+                        <a class="sidebar-link" href="{{ route('orders.confirmed') }}">
+                            <i class="align-middle fa-solid fa-check-circle"></i>
+                            <span class="ms-3 align-middle">Đã Xác Nhận</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('orders.shipping') }}">
+                            <i class="align-middle fa-solid fa-shipping-fast"></i>
+                            <span class="ms-3 align-middle">Đang Giao</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('orders.index') }}">
-                            <i class="align-middle" data-feather="clock"></i>
-                            <span class="ms-3 align-middle">Danh Sách</span>
+                            <i class="align-middle fa-solid fa-check-circle" ></i>
+                            <span class="ms-3 align-middle">Đã Hoàn Thành</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('orders.cancel') }}">
+                            <i class="align-middle fa-solid fa-times-circle" ></i>
+                            <span class="ms-3 align-middle">Đã Huỷ</span>
                         </a>
                     </li>
                     

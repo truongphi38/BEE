@@ -13,6 +13,10 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\Api\OrderDetailController;
 use App\Http\Controllers\ZaloPayController;
+use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RevenueController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -65,9 +69,23 @@ Route::prefix('orders')->group(function () {
     Route::get('/{id}', [OrderController::class, 'show']); // Lấy thông tin đơn hàng theo ID
     Route::put('/{id}', [OrderController::class, 'update']); // Cập nhật đơn hàng
     Route::delete('/{id}', [OrderController::class, 'destroy']); // Xóa đơn hàng
+    Route::patch('/{id}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.delete');
 
-    Route::get('/user/{user_id}', [OrderController::class, 'getOrdersByUser']); // 
-    
+   
+   
+   
+    Route::get('/user/{user_id}', [OrderController::class, 'getOrdersByUser']); //
+    //trang thống kê
+    Route::get('/admin/order-stats', [OrderController::class, 'getOrderStats'])->name('admin.order.stats');
+    Route::get('/admin/orders-by-month', [OrderController::class, 'getOrdersByMonth'])->name('admin.orders.byMonth');
+    Route::get('/admin/reviews-summary', [HomeController::class, 'getReviewsSummary'])->name('admin.reviewsSummary');
+    Route::get('/admin/top-products', [HomeController::class, 'getTopProducts'])->name('admin.topProducts');
+    Route::get('/api/earnings-last-7-days', [HomeController::class, 'getEarningsLast7Days'])->name('api.getEarningsLast7Days');
+
+    Route::get('/top-rated-products', [HomeController::class, 'getTopRatedProducts']);
+
+
+
 
 
 });
@@ -90,7 +108,23 @@ Route::prefix('auth')->group(function () {
 });
 
 
+
 Route::post('/zalopay/payment', [ZaloPayController::class, 'createPayment']);
+
+
+
+
+
+
+
+
+
+// Route::prefix('comments')->group(function () {
+//     Route::get('/', [CommentController::class, 'index']);
+//     Route::post('/', [CommentController::class, 'store']);
+//     Route::get('/{id}', [CommentController::class, 'show']);
+//     Route::delete('/{id}', [CommentController::class, 'delete']);
+// });
 
 Route::prefix('comments')->group(function () {
     Route::get('/', [CommentController::class, 'index']);
@@ -100,15 +134,17 @@ Route::prefix('comments')->group(function () {
 });
 Route::get('/products/{id}/comments', [CommentController::class, 'getCommentsByProduct']);
 
+
 //promotions
 Route::prefix('promotions')->group(function () {
-    Route::get('/', [PromotionController::class, 'index']); 
+    Route::get('/', [PromotionController::class, 'index']);
     Route::get('/{id}', [PromotionController::class, 'show']);
 });
 
 //order_details
 Route::get('/orders/{id}/details', [OrderDetailController::class, 'show']);
 Route::post('/orders/{id}/details', [OrderDetailController::class, 'store']);
+
 
 
 // Wishlist
@@ -126,3 +162,16 @@ Route::post('/zalopay/callback', [ZaloPayController::class, 'callback'])->name('
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/update-password', [AuthController::class, 'updatePassword']);
 });
+
+//wishlist
+
+
+
+
+Route::post('/reviews', [ReviewController::class, 'store']);
+Route::get('/products/{productId}/reviews', [ReviewController::class, 'getReviewsByProduct']);
+
+
+Route::get('/revenue', [RevenueController::class, 'getRevenue']);
+Route::get('/revenue/last7days', [RevenueController::class, 'getRevenueLast7Days']);
+

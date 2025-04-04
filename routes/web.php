@@ -12,6 +12,8 @@ use App\Http\Controllers\TypeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ReviewController;
+
 
 // Admin controller
 use App\Http\Controllers\AdminController;
@@ -32,6 +34,7 @@ use App\Models\Promotion;
 
 // admin dashboard
 Route::get('/admin2/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/', [HomeController::class, 'index'])->name('dashboard.index');
 Route::get('/admin2/users', [AdminController::class, 'userlist'])->name('admin.users');
 Route::get('/admin2/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/admin2/types', [TypeController::class, 'index'])->name('types.index');
@@ -41,9 +44,14 @@ Route::get('/admin2/promotions', [PromotionController::class, 'index'])->name('p
 Route::get('/admin2/comments', [CommentController::class, 'index'])->name('comments.index');
 
 // orders
-Route::get('/admin2/orders/confirmed', [OrderController::class, 'index2'])->name('orders.index2');
-Route::get('/admin2/orders/delivered', [OrderController::class, 'index3'])->name('orders.index3');
+Route::get('/admin2/orders/pending', [OrderController::class, 'pending'])->name('orders.pending');
+Route::get('/admin2/orders/confirmed', [OrderController::class, 'confirmed'])->name('orders.confirmed');
+Route::get('/admin2/orders/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+Route::get('/admin2/orders/shipping', [OrderController::class, 'shipping'])->name('orders.shipping');
 Route::get('/admin2/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+Route::put('/admin2/orders/{id}/update', [OrderController::class, 'updateOrder'])->name('orders.update');
+Route::patch('/admin2/orders/{id}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.delete');
+
 
 
 // products
@@ -76,3 +84,9 @@ Route::put('/admin2/promotion/{id}', [PromotionController::class, 'update'])->na
 
 // comments
 Route::delete('admin2/comments/{id}', [CommentController::class, 'delete'])->name('comments.delete');
+
+//reviews
+Route::get('admin2/products/{id}/reviews', [ProductController::class, 'getReviews']);
+
+Route::get('/products/{product}/reviews', [ReviewController::class, 'getReviews'])->name('products.reviews');
+

@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
     protected $table = 'orders';
-    protected $fillable = ['user_id', 'total_amount', 'status_id', 'subtotal', 'promotion_id','user_address','user_phone'];
+    protected $fillable = ['user_id', 'total_amount', 'status_id', 'subtotal', 'promotion_id', 'user_address', 'user_phone', 'payment_method','cancel_reason'];
 
     public function user()
     {
@@ -23,5 +23,9 @@ class Order extends Model
     public function promotion()
     {
         return $this->belongsTo(Promotion::class, 'promotion_id');
+    }
+    public function status()
+    {
+        return $this->belongsTo(OrderStatus::class, 'status_id');
     }
 }
