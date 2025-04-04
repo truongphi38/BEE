@@ -57,7 +57,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $product = Product::all();
-        $order = Order::with(['user', 'orderDetails.productVariants'])->findOrFail($id);
+        $order = Order::with(['user', 'orderDetails.productVariant'])->findOrFail($id);
         return view('admin.orders.show', compact('order', 'product'));
     }
 
@@ -213,14 +213,14 @@ public function cancelOrder(Request $request,$id)
 public function updateProductPurchaseCount($order)
 {
     foreach ($order->orderDetails as $detail) {
-        $product = $detail->productVariants->product;
+        $product = $detail->productVariant->product;
         $product->increment('purchase_count', $detail->quantity);
     }
 }
 public function rollbackProductPurchaseCount($order)
 {
     foreach ($order->orderDetails as $detail) {
-        $product = $detail->productVariants->product;
+        $product = $detail->productVariant->product;
         $product->decrement('purchase_count', $detail->quantity);
     }
 }
