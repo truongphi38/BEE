@@ -90,7 +90,7 @@ class ProductController extends Controller
 
     function show($id)
     {
-        $product = Product::with('product_variants')->find($id);
+        $product = Product::with('productVariants')->find($id);
 
         if (!$product) {
             abort(404, 'Product not found');
