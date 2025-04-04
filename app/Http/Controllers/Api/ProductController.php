@@ -45,7 +45,7 @@ class ProductController extends Controller
      */
     public function getProductById($id): JsonResponse
     {
-        $product = Product::with(['category', 'type', 'product_variants'])->find($id);
+        $product = Product::with(['category', 'type', 'productVariants'])->find($id);
 
         if (!$product) {
             return response()->json(['message' => 'Sản phẩm không tồn tại'], 404);
