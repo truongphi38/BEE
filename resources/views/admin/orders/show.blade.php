@@ -29,12 +29,12 @@
                 <tbody>
                     @foreach ($order->orderDetails as $detail)
                         <tr>
-                            <td>{{ $detail->productVariant->product->name }} - {{ $detail->productVariant->size }}</td>
+                            <td>{{ $detail->productVariants->product->name }} - {{ $detail->productVariants->size }}</td>
 
-                            <td><img src="{{ asset($detail->productVariant->product->img) }}" width="80" alt="">
+                            <td><img src="{{ asset($detail->productVariants->product->img) }}" width="80" alt="">
                             </td>
                             <td>{{ $detail->quantity }}</td>
-                            <td>{{ number_format($detail->productVariant->price, 0, ',', '.') }} đ</td>
+                            <td>{{ number_format($detail->productVariants->price, 0, ',', '.') }} đ</td>
                             <td>{{ number_format($detail->total_price, 0, ',', '.') }} đ</td>
                         </tr>
                     @endforeach
