@@ -103,6 +103,7 @@ Route::prefix('auth')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user', [AuthController::class, 'user']);
         Route::post('/logout', [AuthController::class, 'logout']);
+        
     });
 });
 
@@ -158,6 +159,10 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/zalopay/create', [ZaloPayController::class, 'createOrder']);
 Route::post('/zalopay/callback', [ZaloPayController::class, 'callback'])->name('zalopay.callback');
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/auth/update-password', [AuthController::class, 'updatePassword']);
+});
+
 //wishlist
 
 
@@ -169,3 +174,4 @@ Route::get('/products/{productId}/reviews', [ReviewController::class, 'getReview
 
 Route::get('/revenue', [RevenueController::class, 'getRevenue']);
 Route::get('/revenue/last7days', [RevenueController::class, 'getRevenueLast7Days']);
+
