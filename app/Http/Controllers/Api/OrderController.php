@@ -227,7 +227,7 @@ class OrderController extends Controller
     }
 
     if ($order->status_id != 1 && $order->status_id != 2) {
-        return redirect()->back()->with('warning', 'Đơn hàng đã được xác nhận và không thể hủy!');
+        return response()->json(['error' => 'Đơn hàng đã được xác nhận và không thể hủy!'], 400);
     }
 
     // Cập nhật trạng thái và lưu lý do hủy đơn
@@ -247,7 +247,7 @@ class OrderController extends Controller
 public function rollbackProductPurchaseCount($order)
 {
     foreach ($order->orderDetails as $detail) {
-        $product = $detail->productVariants->product;
+        $product = $detail->productVariant->product;
         $product->decrement('purchase_count', $detail->quantity);
     }
 }
