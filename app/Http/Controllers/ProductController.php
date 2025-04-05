@@ -23,11 +23,11 @@ class ProductController extends Controller
     //     return view('admin.index2', compact('products', 'categories'));
     // }
     public function index()
-{
-    $products = Product::withCount('wishlists')->get(); // Đếm số lượt thích
-    $categories = Category::all();
-    return view('admin.index2', compact('products', 'categories'));
-}
+    {
+        $products = Product::withCount('wishlists')->get(); // Đếm số lượt thích
+        $categories = Category::all();
+        return view('admin.index2', compact('products', 'categories'));
+    }
 
 
 
@@ -85,7 +85,7 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $types = Type::all();
-        return view('admin.create', compact('categories','types'));
+        return view('admin.create', compact('categories', 'types'));
     }
 
     function show($id)
@@ -101,22 +101,31 @@ class ProductController extends Controller
 
 
     public function getReviews($id)
-{
-    $product = Product::with('reviews.user')->findOrFail($id);
+    {
+        $product = Product::with('reviews.user')->findOrFail($id);
 
-    $html = "";
-    foreach ($product->reviews as $review) {
-        $html .= "
+        $html = "";
+        foreach ($product->reviews as $review) {
+            $html .= "
             <div class='border p-3 mb-3'>
                 <strong>{$review->user->name}</strong> - <span class='text-warning'>⭐ {$review->rating}/5</span>
                 <p>{$review->comment}</p>
                 <small class='text-muted'>Ngày đánh giá: {$review->created_at->format('d/m/Y H:i')}</small>
             </div>
         ";
+        }
+
+        return response($html);
     }
 
-    return response($html);
-}
+    public function toggleHot(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+        $product->is_hot = $request->is_hot;
+        $product->save();
+
+        return response()->json(['success' => true]);
+    }
 
 
     function edit(Product $product)

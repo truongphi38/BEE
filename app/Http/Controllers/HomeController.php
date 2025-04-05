@@ -112,7 +112,7 @@ class HomeController extends Controller
         ->orderByDesc('total_purchased')
         ->orderByDesc('wishlist_count')
         // Giới hạn kết quả là 10 sản phẩm
-        ->limit(10)
+        ->limit(5)
         ->get();
     
     
@@ -198,36 +198,36 @@ class HomeController extends Controller
         ]);
     }
 
-    public function getTopProducts()
-    {
-        $topProducts = Product::select('products.id', 'products.name', 'products.image')
-            ->leftJoin('reviews', function ($join) {
-                $join->on('reviews.product_id', '=', 'products.id')
-                    ->where('reviews.rating', '=', 5);
-            })
-            ->leftJoin('order_details', function ($join) {
-                $join->on('order_details.product_id', '=', 'products.id')
-                    ->join('orders', function ($join) {
-                        $join->on('orders.id', '=', 'order_details.order_id')
-                            ->where('orders.status_id', '=', '5'); // Chỉ lấy đơn hàng đã hoàn thành
-                    });
-            })
-            ->leftJoin('wishlist', 'wishlist.product_id', '=', 'products.id')
-            ->selectRaw('
-            products.id, products.name, products.image,
-            COUNT(reviews.id) as five_star_reviews,
-            COUNT(order_details.id) as purchase_count,
-            COUNT(wishlist.id) as favorite_count
-        ')
-            ->groupBy('products.id', 'products.name', 'products.image')
-            ->orderByDesc('five_star_reviews')
-            ->orderByDesc('purchase_count')
-            ->orderByDesc('favorite_count')
-            ->limit(10) // Giới hạn top 10 sản phẩm
-            ->get();
+    // public function getTopProducts()
+    // {
+    //     $topProducts = Product::select('products.id', 'products.name', 'products.image')
+    //         ->leftJoin('reviews', function ($join) {
+    //             $join->on('reviews.product_id', '=', 'products.id')
+    //                 ->where('reviews.rating', '=', 5);
+    //         })
+    //         ->leftJoin('order_details', function ($join) {
+    //             $join->on('order_details.product_id', '=', 'products.id')
+    //                 ->join('orders', function ($join) {
+    //                     $join->on('orders.id', '=', 'order_details.order_id')
+    //                         ->where('orders.status_id', '=', '5'); // Chỉ lấy đơn hàng đã hoàn thành
+    //                 });
+    //         })
+    //         ->leftJoin('wishlist', 'wishlist.product_id', '=', 'products.id')
+    //         ->selectRaw('
+    //         products.id, products.name, products.image,
+    //         COUNT(reviews.id) as five_star_reviews,
+    //         COUNT(order_details.id) as purchase_count,
+    //         COUNT(wishlist.id) as favorite_count
+    //     ')
+    //         ->groupBy('products.id', 'products.name', 'products.image')
+    //         ->orderByDesc('five_star_reviews')
+    //         ->orderByDesc('purchase_count')
+    //         ->orderByDesc('favorite_count')
+    //         ->limit(5) // Giới hạn top 10 sản phẩm
+    //         ->get();
 
-        return response()->json($topProducts);
-    }
+    //     return response()->json($topProducts);
+    // }
     public function getTopRatedProducts()
     {
         $products = Product::select('products.id', 'products.name', 'products.img')

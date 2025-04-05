@@ -61,6 +61,8 @@ Route::delete('/admin2/products/{id}', [AdminController::class, 'destroyProduct'
 Route::get('/admin2/products/edit/{id}', [AdminController::class, 'editProduct'])->name('admin.product.edit');
 Route::post('/admin2/products/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.product.update');
 Route::get('/admin2/products/{id}', [ProductController::class, 'show'])->name('admin.product.show');
+Route::post('/admin2/products/toggle-hot/{id}', [ProductController::class, 'toggleHot'])->name('admin.product.toggleHot');
+
 
 // types
 Route::get('/admin2/type/create', [TypeController::class, 'create'])->name('type.create');

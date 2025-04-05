@@ -15,28 +15,38 @@ class ProductController extends Controller
     /**
      * Lấy danh sách tất cả sản phẩm (có phân trang)
      */
-     public function getProducts(): JsonResponse
-     {
-         $products = Product::with(['category', 'type', 'productVariants'])
-             ->select('id', 'name', 'img', 'description', 'price', 'discount_price', 'category_id', 'type_id', 'created_at', 'updated_at','purchase_count')
-             ->get(); 
-         return response()->json($products, 200);
-     }
-//     public function getProducts(): JsonResponse
-// {
-//     $products = Product::with(['category', 'type', 'product_variants'])
-//         ->select('products.*')
-//         ->selectRaw('(SELECT COUNT(*) 
-//                       FROM order_details 
-//                       JOIN orders ON order_details.order_id = orders.id 
-//                       WHERE order_details.productvariant_id IN (
-//                           SELECT id FROM product_variants WHERE product_variants.product_id = products.id
-//                       ) 
-//                       AND orders.status_id = 5) as purchase_count')
-//         ->get();
+    public function getProducts(): JsonResponse
+    {
+        $products = Product::with(['category', 'type', 'productVariants'])
+            ->select('id', 'name', 'img', 'description', 'price', 'discount_price', 'category_id', 'type_id', 'created_at', 'updated_at', 'purchase_count','is_hot')
+            ->get();
+        return response()->json($products, 200);
+    }
+    public function getHotProducts(): JsonResponse
+    {
+        $products = Product::with(['category', 'type', 'productVariants'])
 
-//     return response()->json($products, 200);
-// }
+            ->where('is_hot',1)// lọc sản phẩm có is_hot = true
+            ->get();                 // lấy toàn bộ thông tin
+
+        return response()->json($products, 200);
+    }
+
+    //     public function getProducts(): JsonResponse
+    // {
+    //     $products = Product::with(['category', 'type', 'product_variants'])
+    //         ->select('products.*')
+    //         ->selectRaw('(SELECT COUNT(*) 
+    //                       FROM order_details 
+    //                       JOIN orders ON order_details.order_id = orders.id 
+    //                       WHERE order_details.productvariant_id IN (
+    //                           SELECT id FROM product_variants WHERE product_variants.product_id = products.id
+    //                       ) 
+    //                       AND orders.status_id = 5) as purchase_count')
+    //         ->get();
+
+    //     return response()->json($products, 200);
+    // }
 
 
 
@@ -138,8 +148,7 @@ class ProductController extends Controller
         $products = Product::where('name', 'like', '%' . $query . '%')
             ->orWhere('description', 'like', '%' . $query . '%')
             ->get();
-    
+
         return response()->json($products, 200);
     }
-    
 }

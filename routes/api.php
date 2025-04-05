@@ -35,12 +35,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route nhóm cho Products
 Route::prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'getProducts']);
+    
+    Route::get('/hot', [ProductController::class, 'getHotProducts']);
     Route::get('/{id}', [ProductController::class, 'getProductById']);
     Route::post('/', [ProductController::class, 'store']);
     Route::put('/{id}', [ProductController::class, 'update']);
     Route::delete('/{id}', [ProductController::class, 'delete']);
 });
 Route::get('/products/search/{query}', [ProductController::class, 'search']);
+// Route::get('/products/hot', [ProductController::class, 'getHotProducts']);
 
 
 
