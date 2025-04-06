@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Type;
 
 class AdminController extends Controller
 {
@@ -25,35 +26,11 @@ class AdminController extends Controller
     public function editProduct($id){
     $product = Product::findOrFail($id);
     $categories = Category::all();
-    return view('admin.edit_product', compact('product', 'categories'));
+    $types = Type::all();
+    return view('admin.edit_product', compact('product', 'categories','types'));
     }
 
-    // public function updateProduct(Request $request, $id){
-    // $request->validate([
-    //     'name' => 'required|string|max:255',
-    //     'price' => 'required|numeric',
-    //     'discount_price' => 'nullable|numeric',
-    //     'description' => 'nullable|string',
-    //     'category_id' => 'required|exists:categories,id',
-    //     'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    // ]);
-
-    // $product = Product::findOrFail($id);
-    // $product->name = $request->name;
-    // $product->price = $request->price;
-    // $product->discount_price = $request->discount_price;
-    // $product->description = $request->description;
-    // $product->category_id = $request->category_id;
-
-    // if ($request->hasFile('img')) {
-    //     $imagePath = $request->file('img')->store('products', 'public');
-    //     $product->img = $imagePath;
-    // }
-
-    // $product->save();
-
-    // return redirect()->route('products.index')->with('success', 'Cập nhật sản phẩm thành công!');
-    // }
+    
     public function updateProduct(Request $request, $id){
         $request->validate([
             'name' => 'required|string|max:255',

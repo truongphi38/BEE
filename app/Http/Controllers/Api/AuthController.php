@@ -80,4 +80,29 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
         return response()->json(['message' => 'Đăng xuất thành công']);
     }
+    public function updatePassword(Request $request)
+    {
+        // Kiểm tra đầu vào
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+        ]);
+
+        $user = Auth::user(); // Lấy thông tin user đang đăng nhập
+
+        if (!$user) {
+            return response()->json(['message' => 'Người dùng chưa đăng nhập'], 401);
+        }
+
+        // Kiểm tra mật khẩu hiện tại
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json(['message' => 'Mật khẩu hiện tại không đúng'], 400);
+        }
+
+        // Cập nhật mật khẩu mới
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json(['message' => 'Mật khẩu đã được cập nhật thành công']);
+    }
 }

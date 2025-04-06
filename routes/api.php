@@ -178,3 +178,6 @@ Route::get('/products/{productId}/reviews', [ReviewController::class, 'getReview
 Route::get('/revenue', [RevenueController::class, 'getRevenue']);
 Route::get('/revenue/last7days', [RevenueController::class, 'getRevenueLast7Days']);
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/auth/update-password', [AuthController::class, 'updatePassword']);
+});
