@@ -14,9 +14,9 @@ use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\Api\OrderDetailController;
 use App\Http\Controllers\ZaloPayController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\TypeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RevenueController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +35,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route nhóm cho Products
 Route::prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'getProducts']);
-    
+
     Route::get('/hot', [ProductController::class, 'getHotProducts']);
     Route::get('/{id}', [ProductController::class, 'getProductById']);
     Route::post('/', [ProductController::class, 'store']);
@@ -58,6 +58,12 @@ Route::prefix('categories')->group(function () {
     Route::get('/{id}/products', [CategoryController::class, 'getProductsByCategoryId']); // Lấy sản phẩm theo danh mục
 });
 
+Route::prefix('types')->group(function () {
+    Route::get('/', [TypeController::class, 'getTypes']); // Lấy danh sách loại
+    Route::get('/{id}', [TypeController::class, 'getTypeById']); // Lấy danh mục theo ID
+    Route::get('/{id}/products', [TypeController::class, 'getProductsByTypeId']); // Lấy sản phẩm theo danh mục
+});
+
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index']); // Lấy danh sách người dùng
     Route::post('/', [UserController::class, 'store']); // Tạo mới người dùng
@@ -74,9 +80,9 @@ Route::prefix('orders')->group(function () {
     Route::delete('/{id}', [OrderController::class, 'destroy']); // Xóa đơn hàng
     Route::patch('/{id}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.delete');
 
-   
-   
-   
+
+
+
     Route::get('/user/{user_id}', [OrderController::class, 'getOrdersByUser']); //
     //trang thống kê
     Route::get('/admin/order-stats', [OrderController::class, 'getOrderStats'])->name('admin.order.stats');
@@ -84,13 +90,7 @@ Route::prefix('orders')->group(function () {
     Route::get('/admin/reviews-summary', [HomeController::class, 'getReviewsSummary'])->name('admin.reviewsSummary');
     Route::get('/admin/top-products', [HomeController::class, 'getTopProducts'])->name('admin.topProducts');
     Route::get('/api/earnings-last-7-days', [HomeController::class, 'getEarningsLast7Days'])->name('api.getEarningsLast7Days');
-
     Route::get('/top-rated-products', [HomeController::class, 'getTopRatedProducts']);
-
-
-
-
-
 });
 
 Route::get('/payments', [PaymentController::class, 'index']);
@@ -106,7 +106,6 @@ Route::prefix('auth')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user', [AuthController::class, 'user']);
         Route::post('/logout', [AuthController::class, 'logout']);
-        
     });
 });
 
@@ -114,20 +113,6 @@ Route::prefix('auth')->group(function () {
 
 Route::post('/zalopay/payment', [ZaloPayController::class, 'createPayment']);
 
-
-
-
-
-
-
-
-
-// Route::prefix('comments')->group(function () {
-//     Route::get('/', [CommentController::class, 'index']);
-//     Route::post('/', [CommentController::class, 'store']);
-//     Route::get('/{id}', [CommentController::class, 'show']);
-//     Route::delete('/{id}', [CommentController::class, 'delete']);
-// });
 
 Route::prefix('comments')->group(function () {
     Route::get('/', [CommentController::class, 'index']);

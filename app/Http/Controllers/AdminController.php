@@ -32,8 +32,6 @@ class AdminController extends Controller
         $types = Type::all();
         return view('admin.edit_product', compact('product', 'categories', 'types'));
     }
-
-
     public function updateProduct(Request $request, $id)
     {
         $request->validate([
@@ -45,27 +43,23 @@ class AdminController extends Controller
             'type_id' => 'required|exists:types,id',
             'img' => 'nullable|image|max:2048',
         ]);
-
         $product = Product::findOrFail($id);
         $product->name = $request->name;
         $product->price = $request->price;
         $product->discount_price = $request->discount_price;
         $product->description = $request->description;
         $product->category_id = $request->category_id;
-
         if ($request->hasFile('img')) {
             // Xóa ảnh cũ nếu có
             if ($product->img && file_exists(public_path($product->img))) {
                 unlink(public_path($product->img));
             }
-
             // Lưu ảnh mới vào public/img/
             $imageName = time() . '.' . $request->file('img')->getClientOriginalExtension();
             $request->file('img')->move(public_path('img'), $imageName);
             $product->img = 'img/' . $imageName; // Lưu đường dẫn ảnh
         }
         $product->productVariants()->delete();
-
         for ($i = 0; $i < count($request->size); $i++) {
             $product->productVariants()->create([
                 'size' => $request->size[$i],
@@ -74,9 +68,7 @@ class AdminController extends Controller
                 'discount_price' => $request->variant_discount_price[$i] ?? null,
             ]);
         }
-
         $product->save();
-
         return redirect()->route('products.index')->with('success', 'Cập nhật sản phẩm thành công!');
     }
 
