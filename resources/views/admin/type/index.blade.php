@@ -13,6 +13,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Tên</th>
+                        <th>Hình Ảnh</th>
                         <th>Mô tả</th>
                         <th>Ngày Tạo</th>
                         <th>Ngày Cập Nhật</th>
@@ -24,6 +25,7 @@
                     <tr>
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->name }}</td>
+                        <td><img src="{{ asset($item->img) }}" width="80" alt="">
                         <td>{{ $item->description }}</td>
                         <td>{{ $item->created_at }}</td>
                         <td>{{ $item->updated_at }}</td>

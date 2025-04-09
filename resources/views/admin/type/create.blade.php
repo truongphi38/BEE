@@ -13,11 +13,16 @@
                 @endif
 
                 
-                <form action="{{ route('type.store') }}" method="POST">
+                <form action="{{ route('type.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">Tên Loại</label>
                         <input type="text" name="name" class="form-control" placeholder="Nhập tên" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bolder">Hình Ảnh</label>
+                        <input type="file" name="img" class="form-control">
                     </div>
 
                     <div class="mb-3">
@@ -29,6 +34,8 @@
                         <button type="submit" class="btn btn-success">Thêm Loại</button>
                     </div>
                 </form>
+                
+
             </div>
         </div>
     </div>
