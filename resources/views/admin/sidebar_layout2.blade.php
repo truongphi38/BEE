@@ -102,6 +102,13 @@
                 </a>
             </li>
 
+            <li class="sidebar-item {{ Request::routeIs('admin.blogs.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{route('admin.blogs.index')}}">
+                    <i class="align-middle" data-feather="edit-2"></i>
+                    <span class="align-middle">Bài Viết</span>
+                </a>
+            </li>
+
 
         </ul>
 

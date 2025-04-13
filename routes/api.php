@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PromotionController;
@@ -165,4 +166,16 @@ Route::get('/revenue/last7days', [RevenueController::class, 'getRevenueLast7Days
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/update-password', [AuthController::class, 'updatePassword']);
+});
+
+
+// Route public (ai cũng xem được)
+Route::get('/blogs', [BlogController::class, 'index']);
+Route::get('/blogs/{id}', [BlogController::class, 'show']);
+
+// Route chỉ admin mới có quyền
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::post('/blogs', [BlogController::class, 'store']);
+    Route::put('/blogs/{id}', [BlogController::class, 'update']);
+    Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
 });

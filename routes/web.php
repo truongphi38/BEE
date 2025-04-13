@@ -17,6 +17,7 @@ use App\Http\Controllers\ReviewController;
 
 // Admin controller
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BlogController;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Promotion;
@@ -92,3 +93,12 @@ Route::get('admin2/products/{id}/reviews', [ProductController::class, 'getReview
 
 Route::get('/products/{product}/reviews', [ReviewController::class, 'getReviews'])->name('products.reviews');
 
+
+//blogs
+Route::get('/admin2/blogs', [BlogController::class, 'index'])->name('admin.blogs.index');
+Route::get('/admin2/blogs/create', [BlogController::class, 'create'])->name('admin.blogs.create');
+Route::post('/admin2/blogs/store', [BlogController::class, 'store'])->name('admin.blogs.store');
+Route::get('/admin2/blogs/{id}', [BlogController::class, 'show'])->name('admin.blogs.show');
+Route::get('/admin2/blogs/{id}/edit', [BlogController::class, 'edit'])->name('admin.blogs.edit');
+Route::put('/admin2/blogs/{id}', [BlogController::class, 'update'])->name('admin.blogs.update');
+Route::delete('/admin2/blogs/{id}', [BlogController::class, 'destroy'])->name('admin.blogs.destroy');
