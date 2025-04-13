@@ -33,13 +33,7 @@ public function store(Request $request)
             $file->move(public_path('img'), $filename);
             $imagePath = 'img/' . $filename;
         }
-    // $blog = new Blog();
-    // $blog->title = $request->title;
-    // $blog->content = $request->content;
-    // $blog->status = $request->has('status') ? 1 : 0;
-    // $blog->img = $imagePath;    
-    // Gán user_id mặc định là 1 nếu không đăng nhập
-    // $blog->user_id = auth()->check() ? auth()->id() : 1;
+    
     Blog::create([
         'title' => $request->title,
         'content' => $request->content,
@@ -51,9 +45,7 @@ public function store(Request $request)
 
     
 
-    // $blog->save();
-
-    // return redirect()->route('admin.blogs.index')->with('success', 'Tạo blog thành công!');
+    
 }
 
     

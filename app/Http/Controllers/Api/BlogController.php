@@ -16,35 +16,7 @@ class BlogController extends Controller
         return response()->json($blogs);
     }
 
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'title'   => 'required|string|max:255',
-            'content' => 'required|string',
-            'status'  => 'required|boolean',
-            'img'   => 'nullable|image|max:2048',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $imageName = null;
-        if ($request->hasFile('img')) {
-            $imageName = time().'_'.$request->file('img')->getClientOriginalName();
-            $request->file('img')->move(public_path('uploads/blogs'), $imageName);
-        }
-
-        $blog = Blog::create([
-            'title'    => $request->title,
-            'content'  => $request->content,
-            'status'   => $request->status,
-            'img'    => $imageName,
-            'user_id'  => Auth::id(),
-        ]);
-
-        return response()->json($blog, 201);
-    }
+    
 
     public function show($id)
     {
@@ -52,40 +24,6 @@ class BlogController extends Controller
         return response()->json($blog);
     }
 
-    public function update(Request $request, $id)
-    {
-        $blog = Blog::findOrFail($id);
-
-        $validator = Validator::make($request->all(), [
-            'title'   => 'required|string|max:255',
-            'content' => 'required|string',
-            'status'  => 'required|boolean',
-            'img'   => 'nullable|image|max:2048',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        if ($request->hasFile('img')) {
-            $imageName = time().'_'.$request->file('img')->getClientOriginalName();
-            $request->file('img')->move(public_path('uploads/blogs'), $imageName);
-            $blog->image = $imageName;
-        }
-
-        $blog->update([
-            'title'    => $request->title,
-            'content'  => $request->content,
-            'status'   => $request->status,
-        ]);
-
-        return response()->json($blog);
-    }
-
-    public function destroy($id)
-    {
-        $blog = Blog::findOrFail($id);
-        $blog->delete();
-        return response()->json(['message' => 'Xoá blog thành công']);
-    }
+   
+    
 }
