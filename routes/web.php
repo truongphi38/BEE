@@ -68,7 +68,9 @@ Route::post('/admin2/products/toggle-hot/{id}', [ProductController::class, 'togg
 // types
 Route::get('/admin2/type/create', [TypeController::class, 'create'])->name('type.create');
 Route::post('/admin2/type/store', [TypeController::class, 'store'])->name('type.store');
-
+Route::delete('/admin2/type/{id}', [TypeController::class, 'destroy'])->name('admin.type.destroy');
+Route::get('/admin/type/{id}/edit', [TypeController::class, 'edit'])->name('admin.type.edit');
+Route::put('/admin/type/{id}', [TypeController::class, 'update'])->name('admin.type.update');
 
 // categories
 Route::get('/admin2/category/create', [AdminController::class, 'createCategory'])->name('admin.category.create');
