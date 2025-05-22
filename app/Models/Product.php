@@ -2,64 +2,35 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
-        'name',
-        'img',
-        'description',
-        'price',
-        'discount_price',
-        'status_id',
-        'category_id',
-        'type_id',
-        'created_at',
-        'updated_at',
-        'is_hot',
+        'name', 'price', 'discount_price', 'description', 'category_id', 'type_id', 'img', 'is_hot'
     ];
 
-    // Quan hệ với bảng types
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category_id');
-    }
-
+    // Quan hệ với biến thể
     public function productVariants()
     {
-        return $this->hasMany(ProductVariant::class, 'product_id', 'id');
+        return $this->hasMany(ProductVariant::class);
     }
 
+    // Quan hệ với Category
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    // Quan hệ với Type
     public function type()
     {
-        return $this->belongsTo(Type::class, 'type_id');
+        return $this->belongsTo(Type::class);
     }
 
-    public function totalPurchased()
-    {
-        return $this->hasManyThrough(OrderDetail::class, ProductVariant::class, 'product_id', 'productvariant_id', 'id', 'id')
-            ->join('orders', 'orders.id', '=', 'order_details.order_id')
-            ->where('orders.status_id', 5)
-            ->selectRaw('SUM(order_details.quantity) as total_purchased');
-    }
-    
-    public function fiveStarReviews()
-{
-    return $this->hasMany(Review::class, 'product_id')->where('rating', 5);
-}
-
-    
-
+    // Quan hệ với wishlist (nếu có)
     public function wishlists()
     {
-        return $this->hasMany(Wishlist::class, 'product_id');
-    }
-    public function comments()
-    {
-        return $this->hasMany(Comment::class, 'product_id');
+        return $this->hasMany(Wishlist::class);
     }
 }

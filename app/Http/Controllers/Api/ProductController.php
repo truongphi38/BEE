@@ -13,36 +13,35 @@ use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
     /**
-     * Lấy danh sách tất cả sản phẩm (có phân trang)
+     * Lấy danh sách tất cả sản phẩm
      */
     public function getProducts(): JsonResponse
     {
-        $products = Product::with(['category', 'type', 'productVariants'])
+        $products = Product::with(['category', 'type', 'productVariants.color'])
             ->select('id', 'name', 'img', 'description', 'price', 'discount_price', 'category_id', 
                     'type_id', 'created_at', 'updated_at', 'purchase_count','is_hot')
             ->get();
         return response()->json($products, 200);
     }
+
+    /**
+     * Lấy danh sách sản phẩm hot
+     */
     public function getHotProducts(): JsonResponse
     {
-        $products = Product::with(['category', 'type', 'productVariants'])
-
-            ->where('is_hot',1)// lọc sản phẩm có is_hot = true
-            ->get();                 // lấy toàn bộ thông tin
+        $products = Product::with(['category', 'type', 'productVariants.color'])
+            ->where('is_hot', 1)
+            ->get();
 
         return response()->json($products, 200);
     }
-
-    
-
-
 
     /**
      * Lấy thông tin sản phẩm theo ID
      */
     public function getProductById($id): JsonResponse
     {
-        $product = Product::with(['category', 'type', 'productVariants'])->find($id);
+        $product = Product::with(['category', 'type', 'productVariants.color'])->find($id);
 
         if (!$product) {
             return response()->json(['message' => 'Sản phẩm không tồn tại'], 404);
@@ -63,19 +62,40 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'discount_price' => 'nullable|numeric|min:0',
             'category_id' => 'nullable|integer|exists:categories,id',
-            'type_id' => 'required|integer|exists:types,id'
+            'type_id' => 'required|integer|exists:types,id',
+            'variants' => 'nullable|array',
+            'variants.*.color_id' => 'required|exists:colors,id',
+            'variants.*.stock_quantity' => 'required|integer|min:0',
+            'variants.*.price' => 'required|numeric|min:0',
+            'variants.*.discount_price' => 'nullable|numeric|min:0'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $product = Product::create($request->all());
+        DB::beginTransaction();
+        try {
+            $product = Product::create($request->only([
+                'name', 'img', 'description', 'price', 'discount_price', 'category_id', 'type_id'
+            ]));
 
-        return response()->json([
-            'message' => 'Sản phẩm đã được thêm!',
-            'product' => $product
-        ], 201);
+            if ($request->has('variants')) {
+                foreach ($request->variants as $variant) {
+                    $product->productVariants()->create($variant);
+                }
+            }
+
+            DB::commit();
+            return response()->json([
+                'message' => 'Sản phẩm đã được thêm!',
+                'product' => $product->load('productVariants.color')
+            ], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Lỗi khi thêm sản phẩm: ' . $e->getMessage());
+            return response()->json(['message' => 'Lỗi khi thêm sản phẩm'], 500);
+        }
     }
 
     /**
@@ -111,7 +131,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Xóa sản phẩm theo ID (chuẩn RESTful: đổi tên `delete()` thành `destroy()`)
+     * Xóa sản phẩm theo ID
      */
     public function destroy($id): JsonResponse
     {
@@ -120,8 +140,7 @@ class ProductController extends Controller
             return response()->json(['message' => 'Sản phẩm không tồn tại'], 404);
         }
 
-        // Kiểm tra nếu có quan hệ liên quan
-        if ($product->orders()->exists()) {
+        if (method_exists($product, 'orders') && $product->orders()->exists()) {
             return response()->json(['message' => 'Không thể xóa sản phẩm vì đã có đơn hàng liên quan'], 400);
         }
 
@@ -130,6 +149,9 @@ class ProductController extends Controller
         return response()->json(['message' => 'Sản phẩm đã bị xóa!'], 200);
     }
 
+    /**
+     * Tìm kiếm sản phẩm theo tên hoặc mô tả
+     */
     public function search($query)
     {
         $products = Product::where('name', 'like', '%' . $query . '%')

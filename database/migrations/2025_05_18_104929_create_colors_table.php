@@ -9,20 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up() {
-        Schema::table('visitors', function (Blueprint $table) {
-            $table->integer('visit_count')->default(1);
+    public function up(): void
+    {
+        Schema::create('colors', function (Blueprint $table) {
+            $table->id(); // unsignedBigInteger
+            $table->string('name'); // tên màu (ví dụ: Đỏ, Xanh)
+            $table->timestamps();
         });
+        
     }
-    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::table('visitors', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('colors');
     }
 };

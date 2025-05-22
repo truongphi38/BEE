@@ -56,8 +56,8 @@ Route::patch('/admin2/orders/{id}/cancel', [OrderController::class, 'cancelOrder
 
 
 // products
-Route::post('admin2/products/store', [ProductController::class, 'store'])->name('product.store');
-Route::get('admin2/product/create', [ProductController::class, 'create'])->name('product.create');
+Route::post('admin2/products/store', [ProductController::class, 'store'])->name('products.store');
+Route::get('admin2/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::delete('/admin2/products/{id}', [AdminController::class, 'destroyProduct'])->name('admin.products.destroy');
 Route::get('/admin2/products/edit/{id}', [AdminController::class, 'editProduct'])->name('admin.product.edit');
 Route::post('/admin2/products/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.product.update');

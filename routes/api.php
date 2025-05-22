@@ -16,9 +16,10 @@ use App\Http\Controllers\Api\OrderDetailController;
 use App\Http\Controllers\ZaloPayController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\TypeController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\HomeController;    
 use App\Http\Controllers\RevenueController;
-
+use App\Http\Controllers\VNPayController;
+use App\Http\Controllers\Api\OtpAuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -179,3 +180,12 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::put('/blogs/{id}', [BlogController::class, 'update']);
     Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
 });
+
+Route::post('/vnpay-payment', [VNPayController::class, 'createPayment']);
+Route::get('/vnpay-return', [VNPayController::class, 'vnpayReturn']);
+
+
+
+Route::post('/send-otp', [OtpAuthController::class, 'sendOtp']);
+Route::post('/verify-otp', [OtpAuthController::class, 'verifyOtp']);
+

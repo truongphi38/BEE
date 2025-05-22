@@ -1,122 +1,112 @@
-@extends('admin.layout2')
+@extends('layouts.admin')
 
 @section('content')
-<div class="container">
-    <h2 class="mb-4">Chỉnh Sửa Sản Phẩm</h2>
-    <form action="{{ route('admin.product.update', $product->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="mb-3">
-            <label for="name" class="form-label">Tên Sản Phẩm</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}" required>
-        </div>
-        <h4>Biến thể</h4>
-        <div id="variant-container">
-            @foreach($product->productVariants as $index => $variant)
-                <div class="variant-group mb-3 border p-3 rounded">
-                    <label class="form-label fw-bolder">Size</label>
-                    <select name="size[]" class="form-select" required>
-                        @foreach(['S', 'M', 'L', 'XL'] as $size)
-                            <option value="{{ $size }}" {{ $variant->size == $size ? 'selected' : '' }}>{{ $size }}</option>
-                        @endforeach
-                    </select>
-        
-                    <label class="form-label fw-bolder">Số Lượng</label>
-                    <input type="number" name="stock_quantity[]" class="form-control" min="1" value="{{ $variant->stock_quantity }}" required>
-        
-                    <label class="form-label fw-bolder">Giá</label>
-                    <input type="number" name="variant_price[]" class="form-control" min="1" value="{{ $variant->price }}" required>
-        
-                    <label class="form-label fw-bolder">Giá Khuyến Mãi (Nếu có)</label>
-                    <input type="number" name="variant_discount_price[]" class="form-control" min="1" value="{{ $variant->discount_price }}">
-        
-                    <button type="button" class="btn btn-danger mt-2 remove-variant">Huỷ</button>
-                </div>
-            @endforeach
-        </div>
-        <button type="button" id="add-variant" class="btn btn-secondary mt-2">Thêm</button>
+<h2>Sửa sản phẩm</h2>
 
-        <div class="row">
-            <div class="col-md-6">
-                <label for="price" class="form-label">Giá</label>
-                <input type="number" class="form-control" id="price" name="price" value="{{ $product->price }}" required>
-            </div>
-            <div class="col-md-6">
-                <label for="discount_price" class="form-label">Giá Khuyến Mãi</label>
-                <input type="number" class="form-control" id="discount_price" name="discount_price" value="{{ $product->discount_price }}">
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label for="description" class="form-label">Mô Tả</label>
-            <textarea class="form-control" id="description" name="description">{{ $product->description }}</textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="category_id" class="form-label">Danh Mục</label>
-            <select class="form-control" id="category_id" name="category_id" required>
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
-                        {{ $category->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="type_id" class="form-label">Loại</label>
-            <select class="form-control" id="type_id" name="type_id" required>
-                @foreach($types as $type)
-                    <option value="{{ $type->id }}" {{ $product->type_id == $type->id ? 'selected' : '' }}>
-                        {{ $type->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="image" class="form-label">Image</label>
-            <input type="file" class="form-control" id="img" name="img">
-            @if($product->img)
-                <img src="{{ asset($product->img) }}" alt="Product Image" width="100">
-            @endif
-        </div>
-
-        <button type="submit" class="btn btn-success">Update</button>
-    </form>
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+    @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+    @endforeach
+    </ul>
 </div>
+@endif
+
+<form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
+
+    <div class="mb-3">
+        <label for="name">Tên sản phẩm</label>
+        <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $product->name) }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="category_id">Danh mục</label>
+        <select name="category_id" id="category_id" class="form-control" required>
+            @foreach ($categories as $category)
+            <option value="{{ $category->id }}" @selected(old('category_id', $product->category_id) == $category->id)>{{ $category->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="type_id">Loại sản phẩm</label>
+        <select name="type_id" id="type_id" class="form-control" required>
+            @foreach ($types as $type)
+            <option value="{{ $type->id }}" @selected(old('type_id', $product->type_id) == $type->id)>{{ $type->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="description">Mô tả</label>
+        <textarea name="description" id="description" class="form-control">{{ old('description', $product->description) }}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label>Ảnh hiện tại</label><br>
+        @if($product->img)
+            <img src="{{ asset($product->img) }}" alt="Ảnh sản phẩm" width="150">
+        @else
+            Chưa có ảnh
+        @endif
+    </div>
+
+    <div class="mb-3">
+        <label for="img">Thay ảnh mới</label>
+        <input type="file" name="img" id="img" class="form-control" accept="image/*">
+    </div>
+
+    <hr>
+    <h4>Biến thể màu</h4>
+
+    <div id="variantContainer">
+        @foreach ($product->productVariants as $variant)
+        <div class="variantRow d-flex gap-3 align-items-center mb-2">
+            <select name="color_id[]" class="form-select" required>
+                <option value="">Chọn màu</option>
+                @foreach ($colors as $color)
+                <option value="{{ $color->id }}" @selected($color->id == $variant->color_id)>{{ $color->name }}</option>
+                @endforeach
+            </select>
+
+            <input type="number" name="variant_price[]" class="form-control" placeholder="Giá" min="1" value="{{ $variant->price }}" required>
+
+            <input type="number" name="variant_discount_price[]" class="form-control" placeholder="Giá giảm (nếu có)" min="0" value="{{ $variant->discount_price }}">
+
+            <input type="number" name="stock_quantity[]" class="form-control" placeholder="Tồn kho" min="0" value="{{ $variant->stock_quantity }}" required>
+
+            <button type="button" class="btn btn-danger btnRemoveVariant">Xóa</button>
+        </div>
+        @endforeach
+    </div>
+
+    <button type="button" id="btnAddVariant" class="btn btn-primary mb-3">Thêm biến thể màu</button>
+
+    <button type="submit" class="btn btn-success">Cập nhật sản phẩm</button>
+</form>
+
 <script>
-    document.getElementById('add-variant').addEventListener('click', function () {
-        const container = document.getElementById('variant-container');
-        const html = `
-            <div class="variant-group mb-3 border p-3 rounded">
-                <label class="form-label fw-bolder">Size</label>
-                <select name="size[]" class="form-select" required>
-                    <option value="S">S</option>
-                    <option value="M">M</option>
-                    <option value="L">L</option>
-                    <option value="XL">XL</option>
-                </select>
-
-                <label class="form-label fw-bolder">Số Lượng</label>
-                <input type="number" name="stock_quantity[]" class="form-control" min="1" required>
-
-                <label class="form-label fw-bolder">Giá</label>
-                <input type="number" name="variant_price[]" class="form-control" min="1" required>
-
-                <label class="form-label fw-bolder">Giá Khuyến Mãi (Nếu có)</label>
-                <input type="number" name="variant_discount_price[]" class="form-control" min="1">
-
-                <button type="button" class="btn btn-danger mt-2 remove-variant">Huỷ</button>
-            </div>
-        `;
-        container.insertAdjacentHTML('beforeend', html);
+    document.getElementById('btnAddVariant').addEventListener('click', function() {
+        const container = document.getElementById('variantContainer');
+        // clone mẫu đầu tiên hoặc tạo mới
+        const newRow = container.children[0].cloneNode(true);
+        newRow.querySelectorAll('input').forEach(input => input.value = '');
+        newRow.querySelector('select').value = '';
+        container.appendChild(newRow);
     });
 
-    // Xử lý nút "Huỷ"
-    document.addEventListener('click', function (e) {
-        if (e.target && e.target.classList.contains('remove-variant')) {
-            e.target.closest('.variant-group').remove();
+    document.getElementById('variantContainer').addEventListener('click', function(e) {
+        if (e.target.classList.contains('btnRemoveVariant')) {
+            const rows = document.querySelectorAll('.variantRow');
+            if (rows.length > 1) {
+                e.target.closest('.variantRow').remove();
+            } else {
+                alert('Phải có ít nhất một biến thể.');
+            }
         }
     });
 </script>
-
 @endsection

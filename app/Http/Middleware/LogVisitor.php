@@ -12,26 +12,33 @@ class LogVisitor {
     public function handle(Request $request, Closure $next) {
         $ip = $request->ip();
         $today = now()->startOfDay();
-        
 
-        // Nếu URL chứa "/admin", bỏ qua việc ghi nhận lượt truy cập
         if ($request->is('admin/*')) {
             return $next($request);
         }
-    
-        $visitor = Visitor::firstOrNew(
-            ['ip_address' => $ip, 'visited_at' => $today]
-        );
-        
-        $visitor->updated_at = now();
-        $visitor->visit_count = ($visitor->exists ? $visitor->visit_count + 1 : 1);
-        $visitor->save();
-        
-        
-        
-        
-        
+
+        $existing = DB::table('visitors')
+                    ->where('ip_address', $ip)
+                    ->where('visited_at', $today)
+                    ->first();
+
+        if ($existing) {
+            DB::table('visitors')
+                ->where('id', $existing->id)
+                ->update([
+                    'updated_at' => now(),
+                    'visit_count' => $existing->visit_count + 1,
+                ]);
+        } else {
+            DB::table('visitors')->insert([
+                'ip_address' => $ip,
+                'visited_at' => $today,
+                'visit_count' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
         return $next($request);
     }
-    
 }
