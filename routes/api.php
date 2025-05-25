@@ -189,3 +189,7 @@ Route::get('/vnpay-return', [VNPayController::class, 'vnpayReturn']);
 Route::post('/send-otp', [OtpAuthController::class, 'sendOtp']);
 Route::post('/verify-otp', [OtpAuthController::class, 'verifyOtp']);
 
+Route::prefix('forgot-password')->group(function () {
+    Route::post('/send-otp', [OtpAuthController::class, 'sendForgotPasswordOtp']);
+    Route::post('/verify-otp', [OtpAuthController::class, 'verifyForgotPasswordOtp']);
+});
