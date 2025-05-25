@@ -35,12 +35,27 @@ return [
     |
     */
 
-    'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
+'guards' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
     ],
+
+    'api' => [
+        'driver' => 'sanctum',  // <-- driver phải là sanctum
+        'provider' => 'users',
+        //'hash' => false, // có thể thêm nếu cần
+    ],
+],
+
+'providers' => [
+    'users' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\User::class,
+    ],
+],
+
+
 
     /*
     |--------------------------------------------------------------------------

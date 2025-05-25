@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Payment;
+use App\Models\Order;
 
 class PaymentController extends Controller
 {
@@ -28,12 +29,18 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'order_id' => 'required|exists:orders,id',
+            'order_id' => 'required|exists:orders,id', // Lưu ý: khóa chính bảng orders là 'id'
             'method' => 'required|string|max:50',
             'amount' => 'required|numeric',
             'payment_date' => 'nullable|date',
             'status_id' => 'required|integer',
         ]);
+
+        // Kiểm tra đơn hàng tồn tại
+        $order = Order::find($request->order_id);
+        if (!$order) {
+            return response()->json(['message' => 'Không tìm thấy đơn hàng'], 404);
+        }
 
         $payment = Payment::create($request->all());
         return response()->json($payment, 201);
@@ -69,5 +76,5 @@ class PaymentController extends Controller
 
         $payment->delete();
         return response()->json(['message' => 'Xóa thành công'], 200);
- }
+    }
 }

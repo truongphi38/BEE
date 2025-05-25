@@ -9,7 +9,10 @@ class Payment extends Model
 {
     use HasFactory;
 
-    protected $table = 'payment'; // Đặt tên bảng
+    // Nếu bảng là `payment` (số ít), giữ dòng này
+    protected $table = 'payments';
+
+    // Nếu bảng là `payments`, có thể bỏ dòng trên
 
     protected $fillable = [
         'order_id',
@@ -19,6 +22,7 @@ class Payment extends Model
         'status_id',
     ];
 
+    // Mối quan hệ ngược: mỗi payment thuộc về một đơn hàng
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');

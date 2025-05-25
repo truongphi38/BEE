@@ -3,22 +3,44 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 class VNPayController extends Controller
 {
     public function createPayment(Request $request)
     {
+        $request->validate([
+            'amount' => 'required|numeric|min:1000',
+        ]);
+
+        // Lấy user_id từ user đang đăng nhập
+        $userId = Auth::id();
+
+        if (!$userId) {
+            return response()->json(['message' => 'Bạn phải đăng nhập mới được tạo đơn'], 401);
+        }
+
+        // Tạo đơn hàng với trạng thái chờ thanh toán
+        $order = Order::create([
+            'user_id' => $userId,
+            'total_amount' => $request->amount,
+            'status_id' => 1, // trạng thái 'pending'
+            'subtotal' => $request->amount,
+        ]);
+
+        // Các biến môi trường VNPay
         $vnp_TmnCode = env('VNPAY_TMNCODE');
         $vnp_HashSecret = env('VNPAY_HASH_SECRET');
         $vnp_Url = env('VNPAY_URL');
         $vnp_Returnurl = env('VNPAY_RETURN_URL');
 
-        $vnp_TxnRef = uniqid(); // Mã đơn hàng
-        $vnp_OrderInfo = $request->order_desc;
-        $vnp_OrderType = $request->order_type;
-        $vnp_Amount = $request->amount * 100;
-        $vnp_Locale = $request->language ?? 'vn';
-        $vnp_BankCode = $request->bank_code ?? '';
+        $vnp_TxnRef = $order->id;
+        $vnp_Amount = $request->amount * 100; // nhân 100 vì VNPay quy đổi
+        $vnp_OrderInfo = 'Thanh toán đơn hàng #' . $vnp_TxnRef;
+        $vnp_OrderType = 'other';
+        $vnp_Locale = 'vn';
+        $vnp_BankCode = $request->input('bank_code', '');
         $vnp_IpAddr = $request->ip();
         $vnp_ExpireDate = date('YmdHis', strtotime('+15 minutes'));
 
@@ -43,51 +65,34 @@ class VNPayController extends Controller
         }
 
         ksort($inputData);
-        $query = "";
-        $hashdata = "";
-        $i = 0;
+        $hashData = '';
+        $query = '';
         foreach ($inputData as $key => $value) {
+            $hashData .= urlencode($key) . "=" . urlencode($value) . '&';
             $query .= urlencode($key) . "=" . urlencode($value) . '&';
-            $hashdata .= ($i ? '&' : '') . urlencode($key) . "=" . urlencode($value);
-            $i++;
         }
 
-        $vnp_SecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
-        $vnp_Url .= "?" . $query . "vnp_SecureHash=" . $vnp_SecureHash;
+        $hashData = rtrim($hashData, '&');
+        $query = rtrim($query, '&');
+        $vnp_SecureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
+        $vnp_Url = $vnp_Url . '?' . $query . '&vnp_SecureHash=' . $vnp_SecureHash;
 
         return response()->json([
             'code' => '00',
-            'message' => 'success',
-            'data' => $vnp_Url
+            'message' => 'Tạo liên kết thanh toán thành công',
+            'payment_url' => $vnp_Url,
+            'order_id' => $vnp_TxnRef
         ]);
     }
-
     public function vnpayReturn(Request $request)
-    {
-        $inputData = $request->all();
-        $vnp_HashSecret = env('VNPAY_HASH_SECRET');
+{
+    $responseCode = $request->get('vnp_ResponseCode');
 
-        $vnp_SecureHash = $inputData['vnp_SecureHash'];
-        unset($inputData['vnp_SecureHash'], $inputData['vnp_SecureHashType']);
-
-        ksort($inputData);
-        $hashData = "";
-        $i = 0;
-        foreach ($inputData as $key => $value) {
-            $hashData .= ($i ? '&' : '') . urlencode($key) . "=" . urlencode($value);
-            $i++;
-        }
-
-        $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
-
-        if ($secureHash === $vnp_SecureHash) {
-            if ($request->vnp_ResponseCode == '00') {
-                return response()->json(['message' => 'Thanh toán thành công!', 'data' => $request->all()]);
-            } else {
-                return response()->json(['message' => 'Thanh toán thất bại!', 'data' => $request->all()]);
-            }
-        } else {
-            return response()->json(['message' => 'Chữ ký không hợp lệ!']);
-        }
+    if ($responseCode == '00') {
+        return response()->json(['status' => 'success', 'message' => 'Thanh toán thành công']);
+    } else {
+        return response()->json(['status' => 'fail', 'message' => 'Thanh toán thất bại']);
     }
+}
+
 }

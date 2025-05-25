@@ -181,11 +181,8 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
 });
 
-Route::post('/vnpay-payment', [VNPayController::class, 'createPayment']);
-Route::get('/vnpay-return', [VNPayController::class, 'vnpayReturn']);
-
-
-
+Route::middleware('auth:api')->post('/vnpay/create-payment', [VNPayController::class, 'createPayment']);
+Route::get('/vnpay-return', [VnpayController::class, 'vnpayReturn'])->name('vnpay.return');
 Route::post('/send-otp', [OtpAuthController::class, 'sendOtp']);
 Route::post('/verify-otp', [OtpAuthController::class, 'verifyOtp']);
 
