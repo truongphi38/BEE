@@ -4,16 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Promotion;
+use Illuminate\Validation\Rule;
 
 class PromotionController extends Controller
 {
-
     public function index()
     {
         $promotions = Promotion::orderBy('created_at', 'desc')->get();
         return view('admin.promotions.index', compact('promotions'));
     }
 
+    public function create()
+    {
+        return view('admin.promotions.create');
+    }
 
     public function store(Request $request)
     {
@@ -32,24 +36,8 @@ class PromotionController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
         ]);
+
         return redirect()->back()->with('success', 'Tạo Thành Công');
-    }
-
-    public function create()
-    {
-        return view('admin.promotions.create');
-    }
-
-    public function delete($id)
-    {
-        $promotion = Promotion::find($id);
-
-        if (!$promotion) {
-            return redirect()->back()->with('error', 'Không tìm thấy mã khuyến mãi.');
-        }
-
-        $promotion->delete();
-        return redirect()->back()->with('success', 'Xoá thành công.');
     }
 
     public function edit($id)
@@ -57,7 +45,7 @@ class PromotionController extends Controller
         $promotion = Promotion::find($id);
 
         if (!$promotion) {
-            return redirect()->route('promotion.index')->with('error', 'Không tìm thấy mã khuyến mãi!');
+            return redirect()->route('promotions.index')->with('error', 'Không tìm thấy mã khuyến mãi!');
         }
 
         return view('admin.promotions.edit', compact('promotion'));
@@ -66,7 +54,11 @@ class PromotionController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'code' => 'required|unique:promotions,code|max:255',
+            'code' => [
+                'required',
+                'max:255',
+                Rule::unique('promotions', 'code')->ignore($id),
+            ],
             'discount_percent' => 'nullable|numeric|min:0|max:100',
             'description' => 'nullable|string|max:1000',
             'start_date' => 'required|date',
@@ -87,5 +79,17 @@ class PromotionController extends Controller
         ]);
 
         return redirect()->route('promotions.index')->with('success', 'Cập nhật thành công!');
+    }
+
+    public function delete($id)
+    {
+        $promotion = Promotion::find($id);
+
+        if (!$promotion) {
+            return redirect()->back()->with('error', 'Không tìm thấy mã khuyến mãi.');
+        }
+
+        $promotion->delete();
+        return redirect()->back()->with('success', 'Xoá thành công.');
     }
 }
